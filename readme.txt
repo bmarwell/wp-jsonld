@@ -34,7 +34,7 @@ The easiest way to install the plugin is to use the WP built-in menu for finding
 
 If you need to install this using FTP or SFTP, you should follow these steps:
 
-1. Upload `json-ld-article.php`to the `/wp-content/plugins/` directory using your favorite FTP client.
+1. Upload `json-ld-article.php` to the `/wp-content/plugins/` directory using your favorite FTP client.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. That’s it.
 
