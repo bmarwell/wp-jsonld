@@ -22,6 +22,7 @@ Some WP themes include traditional schema.org markup embedded in the html code t
 On the other hand, if you use a custom theme, it is easier to use the functionality provided by the plugin than to invent the wheel again and add the markup in html. Very often, this leads to html code that is difficult to read and is not valid structural markup according to Google’s validator. 
 
 Our plugin:
+
 * Helps your site to earn rich snippets in Google’s SERP.
 * Does not depend on other plugins or external code.
 * Is simple to install: plug-and-play, no need to configure anything.
@@ -41,7 +42,7 @@ If you need to install this using FTP or SFTP, you should follow these steps:
 **Compatibility.** This version requires php 5.4 for some options of json_encode. If you encounter any problems with the plugin you should check your web hotel’s php version.
 
 == Frequently Asked Questions ==
-** Does this plugin X?** Most probably, it does not. This plugin simply adds to the footer of your single post views valid JSON-LD filled with the data from the WP database. You should not see anything new on the page - the JSON-LD can be seen only in the source code of the web page.
+**Does this plugin X?** Most probably, it does not. This plugin simply adds to the footer of your single post views valid JSON-LD filled with the data from the WP database. You should not see anything new on the page - the JSON-LD can be seen only in the source code of the web page.
 
 **Why should I install this plugin?** Installing this plugin is the easiest way to add structured data to your blog. The plugin automatically creates the JSON-LD according to Google’s specification. 
 
