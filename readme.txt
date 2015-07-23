@@ -1,5 +1,5 @@
 === JSON-LD for Article ===
-Contributors: Mikko Piippo, Tomi Lattu
+Contributors: Mikko Piippo, tlattu
 Donate link:
 Tags: json-ld, markup, schema, rich snippets, structured data, microdata, SEO
 Requires at least: 4.0
