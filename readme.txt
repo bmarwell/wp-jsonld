@@ -1,7 +1,7 @@
 === JSON-LD for Article ===
 Contributors: Mikko Piippo, tlattu
 Donate link:
-Tags: json-ld, markup, schema, rich snippets, structured data, microdata, SEO
+Tags: json-ld, markup, schema, rich snippets, structured data, microdata, SEO,schema.org,schema markup,JSON
 Requires at least: 4.0
 Tested up to: 4.2.2
 Stable tag: 0.1
