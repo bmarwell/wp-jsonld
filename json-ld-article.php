@@ -1,23 +1,39 @@
 <?php 
+/*
+Plugin Name:    JSON-LD for Article
+Description:    JSON-LD for Article is simply the easiest solution to add valid
+                schema.org microdata as a JSON-LD script to your blog posts or articles.
+Version:        0.1
+Author:         Mikko Piippo, Tomi Lattu
+Plugin URI:     http://pluginland.com
+
+
+JSON-LD is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+JSON-LD for Aricle is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with JSON-LD for Aricle; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+*/
 
 /**
  * @author Mikko Piippo, Tomi Lattu
  * @since 0.1
  * @license http://www.gnu.org/licenses/gpl-2.0.html GPLv2 or later
- *
- */
-/*
-Plugin Name: JSON-LD for Article
-Description: JSON-LD for Article is simply the easiest solution to add valid schema.org microdata as a JSON-LD script to your blog posts or articles.
-Version:     0.1
-Author:      Mikko Piippo, Tomi Lattu
-Plugin URI: http://pluginland.com
  */
 
+
 /**
+ * Echoes Markup to your footer.
  * @author Mikko Piippo, Tomi Lattu
  * @since 0.1
- *
  */
 function add_markup() {
 
@@ -38,16 +54,16 @@ function add_markup() {
             $thumbnailurl=wp_get_attachment_url(get_post_thumbnail_id());
         }
 
-
-
-        $author = array('@type' => 'Person',
+        $author = array(
+            '@type' => 'Person',
             'name'  => $articleauthor);
 
-        $pub   = array ('@type' => 'Organization',
+        $pub = array (
+            '@type' => 'Organization',
             'name'  => $articlepublisher);
 
-
-        $arr=array(     '@context' => 'http://schema.org',
+        $arr = array(
+            '@context' => 'http://schema.org',
             '@type'    => 'Article',
             'headline'     => $articletitle,
             'author'   => $author,
@@ -57,9 +73,9 @@ function add_markup() {
             'image'  => $thumbnailurl,
             'publisher' =>$pub);
 
-
-
-        echo '<script type="application/ld+json">'.json_encode($arr,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT).'</script>';
+        echo '<script type="application/ld+json">'
+            . json_encode($arr,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT)
+            . '</script>';
     } //end if single
 
 } // end function
