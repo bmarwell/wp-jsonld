@@ -1,25 +1,25 @@
 <?php 
 /*
-Plugin Name:    JSON-LD for Article
-Description:    JSON-LD for Article is simply the easiest solution to add valid
-                schema.org microdata as a JSON-LD script to your blog posts or articles.
-Version:        0.1
-Author:         Mikko Piippo, Tomi Lattu
-Plugin URI:     http://pluginland.com
+Plugin Name:    WP-JSONLD
+Description:    WP-JSONLD is the continuation of the most easy solution to add schema.org markup inside a script tag to your blog posts and author pages.
+Version:        0.2
+Author:         Benjamin Marwell
+Original Author:         Mikko Piippo, Tomi Lattu
+Plugin URI:     https://github.com/bmhm/wp-jsonld/
 
 
-JSON-LD is free software; you can redistribute it and/or modify
+WP-JSONLD is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 
-JSON-LD for Aricle is distributed in the hope that it will be useful,
+WP-JSONLD for Aricle is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along
-with JSON-LD for Aricle; if not, write to the Free Software Foundation, Inc.,
+with WP-JSONLD for Aricle; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
@@ -30,13 +30,14 @@ with JSON-LD for Aricle; if not, write to the Free Software Foundation, Inc.,
  */
 
 
-/* Konstanten */
+/* Constants */
 define('JSONLD_DIR', dirname(__FILE__));
 
 /**
  * createArticle
  *
  * @param bool|FALSE $isParent
+ * @return Article
  */
 function createArticle($isParent = false) {
     $article = new Article($isParent);

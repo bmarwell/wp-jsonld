@@ -51,7 +51,9 @@ If you need to install this using FTP or SFTP, you should follow these steps:
 **Compatibility.** This version requires php 5.4 for some options of json_encode. If you encounter any problems with the plugin you should check your web hotel’s php version.
 
 == Frequently Asked Questions ==
-**Are Authors (Person) markups supported?** Soon.
+**How do I test if this plugin works?** Go to https://developers.google.com/structured-data/testing-tool/ and enter the URL of one of your articles / blog posts.
+
+**Are Authors (Person) markups supported on author pages?** Soon.
 
 **Does this plugin produce valid markup?** According to Google, yes.
 
