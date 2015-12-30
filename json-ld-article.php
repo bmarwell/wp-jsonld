@@ -32,6 +32,7 @@ with WP-JSONLD for Aricle; if not, write to the Free Software Foundation, Inc.,
 
 /* Constants */
 define('JSONLD_DIR', dirname(__FILE__));
+define('JSONLD_CACHE_DIR', JSONLD_DIR . '/cache');
 
 /**
  * createArticle
@@ -44,13 +45,13 @@ function createArticle($isParent = false) {
 
     // Basic info
     $article->headline = get_the_title();
-    $article->datePublished = get_the_date('Y-n-j');
+    $article->datePublished = get_the_date('Y-m-d H:i:s');
     $article->url = get_permalink();
     $article->setId(get_permalink());
 
     // Addition info
     $article->articleSection = get_the_category()[0]->cat_name;
-    $article->dateModified = get_the_modified_date('Y-n-j');
+    $article->dateModified = get_the_modified_date('Y-m-d H:i:s');
     $article->commentCount = get_comments_number();
 
     // Thumbnail if exists
@@ -163,33 +164,70 @@ function createMainEntity($type = 'Article', $id = null) {
 }
 
 /**
+ * check_cache_dir
+ *
+ * Try to create the cache directory.
+ *
+ */
+function check_cache_dir() {
+    if (!file_exists(JSONLD_CACHE_DIR)) {
+        mkdir(JSONLD_CACHE_DIR, 0777, true);
+    }
+}
+
+function create_jsonld_article($scriptpath) {
+    $markup = createArticle(true);
+    $markup->author = createAuthor();
+    $markup->publisher = createOrganization();
+    $markup->image = createImage();
+    $markup->mainEntityOfPage = createMainEntity('Article', $markup->url);
+    $markup->generatedAt = date('Y-m-d H:i:s');
+
+    $scriptcontents = json_encode($markup, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
+
+    $handle = fopen($scriptpath, 'c');
+    fwrite($handle, $scriptcontents);
+    fclose($handle);
+}
+
+function check_create_jsonld_article() {
+    $postid = get_the_id();
+    $scriptpath = 'cache/article_' . $postid . '.json';
+    $abspath = JSONLD_DIR . '/' . $scriptpath;
+
+    if (!file_exists($abspath)) {
+        create_jsonld_article($abspath);
+    }
+
+    if (filemtime($abspath) < get_the_modified_date('U')) {
+        create_jsonld_article($abspats);
+    }
+
+    return $scriptpath;
+}
+
+/**
  * Echoes Markup to your footer.
  * @author Mikko Piippo, Tomi Lattu
  * @since 0.1
  */
 function add_markup() {
-    $markup = null;
+    check_cache_dir();
 
     // Get the data needed for building the JSON-LD
     if (is_single()) {
-        $markup = createArticle(true);
-        $markup->author = createAuthor();
-        $markup->publisher = createOrganization();
-        $markup->image = createImage();
-        $markup->mainEntityOfPage = createMainEntity('Article', $markup->url);
-    } //end if single
+        $script = check_create_jsonld_article();
+    }
 
-    echo '<script type="application/ld+json">'
-        . json_encode($markup, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT)
+    // TODO: Replace by wp_enqueue_script() when types can be changed.
+    $scripturl = plugins_url($script, __FILE__);
+    echo '<script type="application/ld+json" src="' . $scripturl . '">'
+        . file_get_contents(JSONLD_DIR . '/' . $script)
         . '</script>';
 } // end function
 
-add_action ('wp_footer','add_markup');
+add_action('wp_footer','add_markup');
 
-
-/* Autoload Init */
-spl_autoload_register('jsonld_autoload');
-            
 /* Autoload Funktion */
 function jsonld_autoload($class) {
     if ( in_array($class, array('Author', 'Article', 'ImageObject', 'JsonLD', 'Organization')) ) {                                                              
@@ -199,3 +237,7 @@ function jsonld_autoload($class) {
                 $class));  
     }   
 } 
+
+/* Autoload Init */
+spl_autoload_register('jsonld_autoload');
+
