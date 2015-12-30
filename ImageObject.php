@@ -15,71 +15,62 @@
  */
 
 /**
- * Class: Article.
+ * Class: ImageObject.
  *
- * Represents an article
+ * Represents an ImageObject
  *
  * @see JsonLD
  */
-class Article extends JsonLD
+class ImageObject extends JsonLD
 {
-    /**
-     * headline
-     *
-     * @var String
-     */
-    public $headline;
 
     /**
-     * datePublished
-     *
-     * @var String
-     */
-    public $datePublished;
-
-    /**
-     * url
-     *
-     * @var String
-     */
-    public $url;
-
-    /**
-     * commentCount - number of coments.
+     * width
      *
      * @var Integer
      */
-    public $commentCount;
+    public $width;
 
     /**
-     * dateModified - the date when this article
-     * was modified last.
+     * height
      *
-     * @var Date
+     * @var Integer
      */
-    public $dateModified;
+    public $height;
 
     /**
-     * articleSection
+     * image
+     *
+     * An image of this item(?).
+     *
+     * @var URL
+     */
+    public $image;
+
+    /**
+     * caption
+     *
+     * The caption for this object
      *
      * @var String
      */
-    public $articleSection;
+    public $caption;
 
     /**
-     * author
+     * contentUrl
      *
-     * @var Author
+     * Actual bytes of the media object, for example the image file or video file.
+     *
+     * @var mixed
      */
-    public $author;
-
+    public $contentUrl;
 
     /**
       * @param bool|FALSE $addContext
       */
     public function __construct($addContext = false)
     {
-        parent::__construct("Article", $addContext);
+        parent::__construct("ImageObject", $addContext);
     }
 }
 

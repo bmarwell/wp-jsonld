@@ -15,71 +15,34 @@
  */
 
 /**
- * Class: Article.
+ * Class: Organization.
  *
- * Represents an article
+ * Represents an Organization
  *
  * @see JsonLD
  */
-class Article extends JsonLD
+class Organization extends JsonLD
 {
     /**
-     * headline
+     * name - a common name.
      *
      * @var String
      */
-    public $headline;
+    public $name;
 
     /**
-     * datePublished
+     * legalName - the official name.
      *
      * @var String
      */
-    public $datePublished;
-
-    /**
-     * url
-     *
-     * @var String
-     */
-    public $url;
-
-    /**
-     * commentCount - number of coments.
-     *
-     * @var Integer
-     */
-    public $commentCount;
-
-    /**
-     * dateModified - the date when this article
-     * was modified last.
-     *
-     * @var Date
-     */
-    public $dateModified;
-
-    /**
-     * articleSection
-     *
-     * @var String
-     */
-    public $articleSection;
-
-    /**
-     * author
-     *
-     * @var Author
-     */
-    public $author;
-
+    public $legalName;
 
     /**
       * @param bool|FALSE $addContext
       */
     public function __construct($addContext = false)
     {
-        parent::__construct("Article", $addContext);
+        parent::__construct("Organization", $addContext);
     }
 }
 

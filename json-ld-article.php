@@ -36,11 +36,19 @@ with JSON-LD for Aricle; if not, write to the Free Software Foundation, Inc.,
  * @param bool|FALSE $isParent
  */
 function createArticle($isParent = false) {
+    $article = new Article($isParent);
 
-    $article = new Article(isParent);
+    // Basic info
     $article->headline = get_the_title();
     $article->datePublished = get_the_date('Y-n-j');
     $article->url = get_permalink();
+
+    // Addition info
+    $article->articleSection = get_the_category()[0]->cat_name;
+    $article->dateModified = get_the_modified_date();
+    $article->commentCount = get_comments_number();
+
+    // Thumbnail if exists
 
     return $article;
 }
@@ -51,11 +59,35 @@ function createArticle($isParent = false) {
  * @param bool|FALSE $isParent
  */
 function createAuthor($isParent = false) {
-    $author = new Author(isParent);
+    $author = new Author($isParent);
     $author->name = get_the_author();
     $author->url = get_the_author_meta("user_url");
 
     return $author;
+}
+
+function createOrganization($isParent = false) {
+    $org = new Organization($isParent);
+    $org->name = get_bloginfo('name');
+    $org->legalName = get_bloginfo('name');
+
+    return $org;
+}
+
+function createImage($isParent = false) {
+    $img = new ImageObject($isParent);
+
+    if (has_post_thumbnail()) {
+        $img->contentUrl = wp_get_attachment_url(get_post_thumbnail_id());
+        $img->image = wp_get_attachment_url(get_post_thumbnail_id());
+
+        $props = wp_get_attachment_metadata(get_post_thumbnail_id());
+        $img->width = $props['width'];
+        $img->height = $props['height'];
+        $img->caption = $props['image_meta']['caption'];
+    }
+
+    return $img;
 }
 
 /**
@@ -68,27 +100,16 @@ function add_markup() {
 
     // Get the data needed for building the JSON-LD
     if (is_single()) {
-        $markup = createArticleMarkup(true);
+        $markup = createArticle(true);
         $markup->author = createAuthor();
-
-        // TODO: Implement everything below.
-        $articlepublisher=get_bloginfo('name');
-        $articlesection=get_the_category()[0]->cat_name;
-        $articlemodified=get_the_modified_date();
-        $articlecommentcount=get_comments_number();
-
-        if (has_post_thumbnail()) {
-            $thumbnailurl=wp_get_attachment_url(get_post_thumbnail_id());
-        }
-
-        $pub = array (
-            '@type' => 'Organization',
-            'name'  => $articlepublisher);
+        $markup->publisher = createOrganization();
+        $markup->image = createImage();
     } //end if single
 
     echo '<script type="application/ld+json">'
         . json_encode($markup, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT)
         . '</script>';
 } // end function
+
 add_action ('wp_footer','add_markup');
 
