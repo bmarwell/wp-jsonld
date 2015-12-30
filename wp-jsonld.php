@@ -175,12 +175,9 @@ function check_cache_dir() {
     }
 }
 
-function create_jsonld_article($scriptpath) {
-    $markup = createArticle(true);
-    $markup->author = createAuthor();
-    $markup->publisher = createOrganization();
-    $markup->image = createImage();
-    $markup->mainEntityOfPage = createMainEntity('Article', $markup->url);
+function create_jsonld_author($scriptpath) {
+    $markup = createAuthor(true);
+    //$markup->mainEntityOfPage = createMainEntity('WebPage', $markup->url);
     //$markup->generatedAt = date('Y-m-d H:i:s');
 
     $scriptcontents = json_encode($markup, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
@@ -190,6 +187,25 @@ function create_jsonld_article($scriptpath) {
     fclose($handle);
 }
 
+function create_jsonld_article($scriptpath) {
+    $markup = createArticle(true);
+    $markup->author = createAuthor();
+    $markup->publisher = createOrganization();
+    $markup->image = createImage();
+    //$markup->mainEntityOfPage = createMainEntity('Article', $markup->url);
+    //$markup->generatedAt = date('Y-m-d H:i:s');
+
+    $scriptcontents = json_encode($markup, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
+
+    $handle = fopen($scriptpath, 'c');
+    fwrite($handle, $scriptcontents);
+    fclose($handle);
+}
+
+/**
+ * Creates article markup if it doesnt exist yet.
+ * @since 0.2
+ * */
 function check_create_jsonld_article() {
     $postid = get_the_id();
     $scriptpath = 'cache/article_' . $postid . '.json';
@@ -206,6 +222,23 @@ function check_create_jsonld_article() {
     return $scriptpath;
 }
 
+function check_create_jsonld_author() {
+    $authorid = get_the_id();
+    $scriptpath = 'cache/author_' . $authorid . '.json';
+    $abspath = JSONLD_DIR . '/' . $scriptpath;
+
+    if (!file_exists($abspath)) {
+        create_jsonld_author($abspath);
+    }
+
+    if (filemtime($abspath) < get_the_modified_date('U')) {
+        create_jsonld_author($abspats);
+    }
+
+    return $scriptpath;
+}
+
+
 /**
  * Echoes Markup to your footer.
  * @author Mikko Piippo, Tomi Lattu
@@ -217,6 +250,8 @@ function add_markup() {
     // Get the data needed for building the JSON-LD
     if (is_single()) {
         $script = check_create_jsonld_article();
+    } elseif (is_author()) {
+        $script = check_create_jsonld_author();
     }
 
     // TODO: Replace by wp_enqueue_script() when types can be changed.
