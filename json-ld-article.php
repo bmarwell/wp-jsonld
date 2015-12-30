@@ -30,6 +30,9 @@ with JSON-LD for Aricle; if not, write to the Free Software Foundation, Inc.,
  */
 
 
+/* Konstanten */
+define('JSONLD_DIR', dirname(__FILE__));
+
 /**
  * createArticle
  *
@@ -113,3 +116,16 @@ function add_markup() {
 
 add_action ('wp_footer','add_markup');
 
+
+/* Autoload Init */
+spl_autoload_register('jsonld_autoload');
+            
+/* Autoload Funktion */
+function jsonld_autoload($class) {
+    if ( in_array($class, array('Author', 'Article', 'ImageObject', 'JsonLD', 'Organization')) ) {                                                              
+        require_once(
+            sprintf('%s/inc/%s.class.php',
+                JSONLD_DIR,
+                $class));  
+    }   
+} 
