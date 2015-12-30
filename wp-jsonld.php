@@ -35,28 +35,28 @@ define('JSONLD_DIR', dirname(__FILE__));
 define('JSONLD_CACHE_DIR', JSONLD_DIR . '/cache');
 
 /**
- * createArticle
+ * createBlogPosting
  *
  * @param bool|FALSE $isParent
- * @return Article
+ * @return BlogPosting
  */
-function createArticle($isParent = false) {
-    $article = new Article($isParent);
+function createBlogPosting($isParent = false) {
+    $blogpost = new BlogPosting($isParent);
 
     // Basic info
-    $article->headline = get_the_title();
-    $article->datePublished = get_the_date('Y-m-d H:i:s');
-    $article->url = get_permalink();
-    $article->setId(get_permalink());
+    $blogpost->headline = get_the_title();
+    $blogpost->datePublished = get_the_date('Y-m-d H:i:s');
+    $blogpost->url = get_permalink();
+    $blogpost->setId(get_permalink());
 
     // Addition info
-    $article->articleSection = get_the_category()[0]->cat_name;
-    $article->dateModified = get_the_modified_date('Y-m-d H:i:s');
-    $article->commentCount = get_comments_number();
+    $blogpost->articleSection = get_the_category()[0]->cat_name;
+    $blogpost->dateModified = get_the_modified_date('Y-m-d H:i:s');
+    $blogpost->commentCount = get_comments_number();
 
     // Thumbnail if exists
 
-    return $article;
+    return $blogpost;
 }
 
 /**
@@ -187,12 +187,15 @@ function create_jsonld_author($scriptpath) {
     fclose($handle);
 }
 
-function create_jsonld_article($scriptpath) {
-    $markup = createArticle(true);
+function create_jsonld_blogposting($scriptpath) {
+    $markup = createBlogPosting(true);
     $markup->author = createAuthor();
     $markup->publisher = createOrganization();
     $markup->image = createImage();
-    //$markup->mainEntityOfPage = createMainEntity('Article', $markup->url);
+    // this is mean. The Page with posts can be another page
+    // than home_url() or site_url().
+    $blogurl = get_permalink(get_option('page_for_posts'));
+    $markup->mainEntityOfPage = createMainEntity('WebPage', $blogurl);
     //$markup->generatedAt = date('Y-m-d H:i:s');
 
     $scriptcontents = json_encode($markup, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
@@ -203,20 +206,20 @@ function create_jsonld_article($scriptpath) {
 }
 
 /**
- * Creates article markup if it doesnt exist yet.
+ * Creates blogposting markup if it doesnt exist yet.
  * @since 0.2
  * */
-function check_create_jsonld_article() {
+function check_create_jsonld_blogposting() {
     $postid = get_the_id();
-    $scriptpath = 'cache/article_' . $postid . '.json';
+    $scriptpath = 'cache/blogpost_' . $postid . '.json';
     $abspath = JSONLD_DIR . '/' . $scriptpath;
 
     if (!file_exists($abspath)) {
-        create_jsonld_article($abspath);
+        create_jsonld_blogposting($abspath);
     }
 
     if (filemtime($abspath) < get_the_modified_date('U')) {
-        create_jsonld_article($abspats);
+        create_jsonld_blogposting($abspats);
     }
 
     return $scriptpath;
@@ -249,7 +252,7 @@ function add_markup() {
 
     // Get the data needed for building the JSON-LD
     if (is_single()) {
-        $script = check_create_jsonld_article();
+        $script = check_create_jsonld_blogposting();
     } elseif (is_author()) {
         $script = check_create_jsonld_author();
     }
@@ -265,7 +268,7 @@ add_action('wp_footer','add_markup');
 
 /* Autoload Funktion */
 function jsonld_autoload($class) {
-    if ( in_array($class, array('Author', 'Article', 'ImageObject', 'JsonLD', 'Organization')) ) {                                                              
+    if ( in_array($class, array('Author', 'BlogPosting', 'Article', 'ImageObject', 'JsonLD', 'Organization')) ) {                                                              
         require_once(
             sprintf('%s/inc/%s.class.php',
                 JSONLD_DIR,
