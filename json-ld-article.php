@@ -45,10 +45,11 @@ function createArticle($isParent = false) {
     $article->headline = get_the_title();
     $article->datePublished = get_the_date('Y-n-j');
     $article->url = get_permalink();
+    $article->setId(get_permalink());
 
     // Addition info
     $article->articleSection = get_the_category()[0]->cat_name;
-    $article->dateModified = get_the_modified_date();
+    $article->dateModified = get_the_modified_date('Y-n-j');
     $article->commentCount = get_comments_number();
 
     // Thumbnail if exists
@@ -62,9 +63,12 @@ function createArticle($isParent = false) {
  * @param bool|FALSE $isParent
  */
 function createAuthor($isParent = false) {
+    $auId = get_the_author_meta( 'ID' );
     $author = new Author($isParent);
-    $author->name = get_the_author();
-    $author->url = get_the_author_meta("user_url");
+    $author->name = get_the_author_meta('display_name');
+    $author->url = get_author_posts_url($auId);
+    $author->setId(get_author_posts_url($auId));
+    $author->email = get_the_author_meta('user_email');
 
     return $author;
 }
@@ -73,24 +77,57 @@ function createOrganization($isParent = false) {
     $org = new Organization($isParent);
     $org->name = get_bloginfo('name');
     $org->legalName = get_bloginfo('name');
+    $org->setId(network_site_url('/'));
+    $org->url = network_site_url('/');
+    $org->logo = createLogo();
 
     return $org;
 }
 
 function createImage($isParent = false) {
+    $thId = get_post_thumbnail_id();
     $img = new ImageObject($isParent);
 
     if (has_post_thumbnail()) {
-        $img->contentUrl = wp_get_attachment_url(get_post_thumbnail_id());
-        $img->image = wp_get_attachment_url(get_post_thumbnail_id());
+        $img->contentUrl = wp_get_attachment_url($thId);
+        $img->image = wp_get_attachment_url($thId);
+        $img->setId(get_attachment_link($thId));
+        $img->url = wp_get_attachment_url($thId);
 
-        $props = wp_get_attachment_metadata(get_post_thumbnail_id());
+        $props = wp_get_attachment_metadata($thId);
         $img->width = $props['width'];
         $img->height = $props['height'];
-        $img->caption = $props['image_meta']['caption'];
+        $img->caption = wp_prepare_attachment_for_js($thId)['caption'];
     }
 
     return $img;
+}
+
+function createLogo($isParent = false) {
+    $logourl = "https://logo.clearbit.com/" . stripProtocolScheme(get_site_url());
+    $logo = new ImageObject($isParent);
+    $logo->setId($logourl);
+    $logo->url = $logourl;
+    
+    return $logo;
+}
+
+function stripProtocolScheme($url) {
+   $disallowed = array('http://', 'https://', 'spdy://', '://', '//');
+
+   foreach($disallowed as $d) {
+      if(strpos($url, $d) === 0) {
+         return str_replace($d, '', $url);
+      }
+   }
+
+   return $url;
+}
+
+function createMainEntity($type = Article, $id = null) {
+    return array(
+        "@type" => $type,
+        "@id" => $id);
 }
 
 /**
@@ -107,6 +144,7 @@ function add_markup() {
         $markup->author = createAuthor();
         $markup->publisher = createOrganization();
         $markup->image = createImage();
+        $markup->mainEntityOfPage = createMainEntity('Article', $markup->url);
     } //end if single
 
     echo '<script type="application/ld+json">'

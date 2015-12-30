@@ -31,6 +31,13 @@ class Organization extends JsonLD
     public $name;
 
     /**
+     * logo
+     *
+     * @var ImageObject
+     */
+    public $logo;
+
+    /**
      * legalName - the official name.
      *
      * @var String

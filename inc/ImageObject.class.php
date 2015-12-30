@@ -23,6 +23,14 @@
  */
 class ImageObject extends JsonLD
 {
+    /**
+     * url
+     *
+     * where to find this image.
+     *
+     * @var mixed
+     */
+    public $url;
 
     /**
      * width
