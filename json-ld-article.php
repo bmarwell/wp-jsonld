@@ -181,7 +181,7 @@ function create_jsonld_article($scriptpath) {
     $markup->publisher = createOrganization();
     $markup->image = createImage();
     $markup->mainEntityOfPage = createMainEntity('Article', $markup->url);
-    $markup->generatedAt = date('Y-m-d H:i:s');
+    //$markup->generatedAt = date('Y-m-d H:i:s');
 
     $scriptcontents = json_encode($markup, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
 
