@@ -73,6 +73,14 @@ function createAuthor($isParent = false) {
     return $author;
 }
 
+/**
+ * createOrganization
+ *
+ *
+ * Creates an organization object for the blog.
+ *
+ * @param bool|FALSE $isParent set to true to insert @context
+ */
 function createOrganization($isParent = false) {
     $org = new Organization($isParent);
     $org->name = get_bloginfo('name');
@@ -84,6 +92,13 @@ function createOrganization($isParent = false) {
     return $org;
 }
 
+/**
+ * createImage
+ *
+ * Creates an image for the post thumbnail.
+ *
+ * @param bool $isParent
+ */
 function createImage($isParent = false) {
     $thId = get_post_thumbnail_id();
     $img = new ImageObject($isParent);
@@ -103,6 +118,11 @@ function createImage($isParent = false) {
     return $img;
 }
 
+/**
+ * createLogo
+ *
+ * @param bool|FALSE $isParent
+ */
 function createLogo($isParent = false) {
     $logourl = "https://logo.clearbit.com/" . stripProtocolScheme(get_site_url());
     $logo = new ImageObject($isParent);
@@ -112,6 +132,11 @@ function createLogo($isParent = false) {
     return $logo;
 }
 
+/**
+ * stripProtocolScheme
+ *
+ * @param String $url
+ */
 function stripProtocolScheme($url) {
    $disallowed = array('http://', 'https://', 'spdy://', '://', '//');
 
@@ -124,7 +149,13 @@ function stripProtocolScheme($url) {
    return $url;
 }
 
-function createMainEntity($type = Article, $id = null) {
+/**
+ * createMainEntity
+ *
+ * @param String $type
+ * @param String $id
+ */
+function createMainEntity($type = 'Article', $id = null) {
     return array(
         "@type" => $type,
         "@id" => $id);
