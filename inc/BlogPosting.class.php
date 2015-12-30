@@ -14,6 +14,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace bmarwell\wp_jsonld;
+
+use bmarwell\wp_jsonld\JsonLD;
+use bmarwell\wp_jsonld\Article;
+use bmarwell\wp_jsonld\Author;
+
 /**
  * Class: BlogPosting.
  *

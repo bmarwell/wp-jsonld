@@ -14,6 +14,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace bmarwell\wp_jsonld;
+
+use bmarwell\wp_jsonld\JsonLD;
+
 /**
  * Class: Organization.
  *
