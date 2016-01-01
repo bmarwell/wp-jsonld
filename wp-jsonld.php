@@ -229,9 +229,9 @@ class WP_JsonLD {
         } elseif (is_author()) {
             $auId = get_the_author_meta( 'ID' );
 
-            if ( false === ( $markup = get_transient( 'wp_jsonld-author' . $auId ) ) ) {
+            if ( false === ( $markup = get_transient( 'wp_jsonld-author_' . $auId ) ) ) {
                 $markup = $this->create_jsonld_author();
-                set_transient('wp_jsonld-author' . $auId, $markup, 0);
+                set_transient('wp_jsonld-author_' . $auId, $markup, 0);
             }
 
         }
