@@ -183,19 +183,17 @@ class WP_JsonLD {
         }
     }
 
-    function create_jsonld_author($scriptpath) {
+    function create_jsonld_author() {
         $markup = $this->createAuthor(true);
         //$markup->mainEntityOfPage = createMainEntity('WebPage', $markup->url);
         //$markup->generatedAt = date('Y-m-d H:i:s');
 
         $scriptcontents = json_encode($markup, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
 
-        $handle = fopen($scriptpath, 'c');
-        fwrite($handle, $scriptcontents);
-        fclose($handle);
+        return $scriptcontents;
     }
 
-    function create_jsonld_blogposting($scriptpath) {
+    function create_jsonld_blogposting() {
         $markup = $this->createBlogPosting(true);
         $markup->author = $this->createAuthor();
         $markup->publisher = $this->createOrganization();
@@ -208,47 +206,8 @@ class WP_JsonLD {
 
         $scriptcontents = json_encode($markup, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
 
-        $handle = fopen($scriptpath, 'c');
-        fwrite($handle, $scriptcontents);
-        fclose($handle);
+        return $scriptcontents;
     }
-
-    /**
-     * Creates blogposting markup if it doesnt exist yet.
-     * @since 0.2
-     * */
-    function check_create_jsonld_blogposting() {
-        $postid = get_the_id();
-        $scriptpath = 'cache/blogpost_' . $postid . '.json';
-        $abspath = JSONLD_DIR . '/' . $scriptpath;
-
-        if (!file_exists($abspath)) {
-            $this->create_jsonld_blogposting($abspath);
-        }
-
-        if (filemtime($abspath) < get_the_modified_date('U')) {
-            $this->create_jsonld_blogposting($abspats);
-        }
-
-        return $scriptpath;
-    }
-
-    function check_create_jsonld_author() {
-        $authorid = get_the_id();
-        $scriptpath = 'cache/author_' . $authorid . '.json';
-        $abspath = JSONLD_DIR . '/' . $scriptpath;
-
-        if (!file_exists($abspath)) {
-            $this->create_jsonld_author($abspath);
-        }
-
-        if (filemtime($abspath) < get_the_modified_date('U')) {
-            $this->create_jsonld_author($abspats);
-        }
-
-        return $scriptpath;
-    }
-
 
     /**
      * Echoes Markup to your footer.
@@ -256,19 +215,27 @@ class WP_JsonLD {
      * @since 0.1
      */
     function add_markup() {
-        WP_JsonLD::check_cache_dir();
+        // WP_JsonLD::check_cache_dir();
 
         // Get the data needed for building the JSON-LD
         if (is_single()) {
-            $script = $this->check_create_jsonld_blogposting();
+            $postid = get_the_id();
+
+            if ( false === ( $markup = get_transient( 'wp_jsonld-article_' . $postid ) ) ) {
+                $markup = $this->create_jsonld_blogposting();
+            }
+
         } elseif (is_author()) {
-            $script = $this->check_create_jsonld_author();
+            $auId = get_the_author_meta( 'ID' );
+
+            if ( false === ( $markup = get_transient( 'wp_jsonld-author' . $auId ) ) ) {
+                $markup = $this->create_jsonld_author();
+            }
+
         }
 
-        // TODO: Replace by wp_enqueue_script() when types can be changed.
-        $scripturl = plugins_url($script, __FILE__);
         echo '<script type="application/ld+json" src="' . $scripturl . '">'
-            . file_get_contents(JSONLD_DIR . '/' . $script)
+            . $markup
             . '</script>';
     } // end function
 
