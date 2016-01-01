@@ -5,8 +5,8 @@ Original Authors: Mikko Piippo, tlattu
 Donate link:
 Tags: json-ld, markup, schema, rich snippets, structured data, microdata, SEO,schema.org,schema markup,JSON
 Requires at least: 4.0
-Tested up to: 4.2.2
-Stable tag: 0.1
+Tested up to: 4.4
+Stable tag: 0.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
