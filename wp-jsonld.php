@@ -223,6 +223,7 @@ class WP_JsonLD {
 
             if ( false === ( $markup = get_transient( 'wp_jsonld-article_' . $postid ) ) ) {
                 $markup = $this->create_jsonld_blogposting();
+                set_transient('wp_jsonld-article_' . $postid, $markup, 0);
             }
 
         } elseif (is_author()) {
@@ -230,6 +231,7 @@ class WP_JsonLD {
 
             if ( false === ( $markup = get_transient( 'wp_jsonld-author' . $auId ) ) ) {
                 $markup = $this->create_jsonld_author();
+                set_transient('wp_jsonld-author' . $auId, $markup, 0);
             }
 
         }
