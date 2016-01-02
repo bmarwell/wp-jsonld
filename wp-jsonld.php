@@ -67,11 +67,11 @@ class WP_JsonLD {
     }
 
     /**
-     * createAuthor - create Author Markup
+     * create_author_entity( - create Author Markup
      *
      * @param bool|FALSE $isParent
      */
-    function createAuthor($isParent = false) {
+    function create_author_entity($isParent = false) {
         $auId = get_the_author_meta( 'ID' );
         $author = new Author($isParent);
         $author->name = get_the_author_meta('display_name');
@@ -171,7 +171,7 @@ class WP_JsonLD {
     }
 
     function create_jsonld_author() {
-        $markup = $this->createAuthor(true);
+        $markup = $this->create_author_entity(true);
         //$markup->mainEntityOfPage = createMainEntity('WebPage', $markup->url);
         //$markup->generatedAt = date('Y-m-d H:i:s');
 
@@ -212,7 +212,7 @@ class WP_JsonLD {
 
     function create_jsonld_blogposting() {
         $markup = $this->createBlogPosting(true);
-        $markup->author = $this->createAuthor();
+        $markup->author = $this->create_author_entity();
         $markup->publisher = $this->createOrganization();
         $markup->image = $this->createImage();
         // this is mean. The Page with posts can be another page
@@ -270,7 +270,7 @@ class WP_JsonLD {
         }
 
         // if markup found, insert.
-        if (!null === $markup) {
+        if (null !== $markup) {
             echo '<script type="application/ld+json">'
                 . $markup
                 . '</script>';

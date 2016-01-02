@@ -6,7 +6,7 @@ Donate link:
 Tags: json-ld, markup, schema, rich snippets, structured data, microdata, SEO,schema.org,schema markup,JSON
 Requires at least: 4.0
 Tested up to: 4.4
-Stable tag: 0.2.4
+Stable tag: 0.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,6 +20,11 @@ Original Plugin (discontinued): https://de.wordpress.org/plugins/json-ld-for-art
 Sadly, he original plugin is not being developed anymore. So I decided to fix some bugs like invalid markup,
     missing tags, putting objects into fields instead of just URLs for images, and implementing for more than just
     articles.
+
+Also, this plugin plays nicely with [YASR - yet another star rating](https://de.wordpress.org/plugins/yet-another-stars-rating/). It will
+remove yasr's invalid jsonld-syntax and instead use YASRs rating.
+
+All requests are being cached and purged on page update/edit etc.
 
 ### Original description
 Search engines such as Google are using structured data markup in many ways—for example, to create rich snippets in search results. Search results with rich snippets will improve your click through rates and increase the number of visitors on your website.
@@ -49,7 +54,7 @@ If you need to install this using FTP or SFTP, you should follow these steps:
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. That’s it.
 
-**Compatibility.** This version requires php 5.4 for some options of json_encode. If you encounter any problems with the plugin you should check your web hotel’s php version.
+**Compatibility.** This version requires php 5.4 for some options of json\_encode. If you encounter any problems with the plugin you should check your web hotel’s php version.
 
 ## Frequently Asked Questions ==
 **How do I test if this plugin works?** Go to https://developers.google.com/structured-data/testing-tool/ and enter the URL of one of your articles / blog posts.
@@ -71,6 +76,10 @@ If you need to install this using FTP or SFTP, you should follow these steps:
 Screenshots will be added soon.
 
 ## Changelog 
+
+### 0.3
+* Use transients for caching.
+* Use tag 'aggregateRating' if YSSR is installed.
 
 ### 0.2
 * Extended the functionality a bit and completely refactored the code to make it much more readable.
