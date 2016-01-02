@@ -39,7 +39,6 @@ use bmarwell\wp_jsonld\Organization;
 
 /* Constants */
 define('JSONLD_DIR', dirname(__FILE__));
-define('JSONLD_CACHE_DIR', JSONLD_DIR . '/cache');
 
 class WP_JsonLD {
     /**
@@ -171,18 +170,6 @@ class WP_JsonLD {
             "@id" => $id);
     }
 
-    /**
-     * check_cache_dir
-     *
-     * Try to create the cache directory.
-     *
-     */
-    public static function check_cache_dir() {
-        if (!file_exists(JSONLD_CACHE_DIR)) {
-            mkdir(JSONLD_CACHE_DIR, 0777, true);
-        }
-    }
-
     function create_jsonld_author() {
         $markup = $this->createAuthor(true);
         //$markup->mainEntityOfPage = createMainEntity('WebPage', $markup->url);
@@ -191,6 +178,36 @@ class WP_JsonLD {
         $scriptcontents = json_encode($markup, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
 
         return $scriptcontents;
+    }
+
+    /**
+     * Create a rating object for AggregateRating.
+     *
+     * TODO: Convert to JsonLD Object instead of using array.
+     * @since 0.3
+     * */
+    function createRating() {
+        $visitor_votes = yasr_get_visitor_votes();
+
+        if ($visitor_votes) {
+            foreach ($visitor_votes as $rating) {
+                $visitor_rating['votes_number']=$rating->number_of_votes;
+                $visitor_rating['sum']=$rating->sum_votes;
+            }
+        }
+
+        if ($visitor_rating['sum'] != 0 && $visitor_rating['votes_number'] != 0) {
+            $average_rating = $visitor_rating['sum'] / $visitor_rating['votes_number'];
+            $average_rating = round($average_rating, 1);
+
+            $ratingMarkup = array(
+                "@type" => "AggregateRating",
+                "ratingValue" => "$average_rating",
+                "ratingCount" => $visitor_rating['votes_number'],
+             );
+        }
+
+        return $ratingMarkup;
     }
 
     function create_jsonld_blogposting() {
@@ -204,6 +221,16 @@ class WP_JsonLD {
         $markup->mainEntityOfPage = $this->createMainEntity('WebPage', $blogurl);
         //$markup->generatedAt = date('Y-m-d H:i:s');
 
+        // create rating if yasr is installed.
+        if (function_exists("yasr_get_visitor_votes")) {
+            $visitor_votes = yasr_get_visitor_votes();
+
+            if ($visitor_votes) {
+                $markup->aggregateRating = $this->createRating();
+            }
+
+        }
+
         $scriptcontents = json_encode($markup, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
 
         return $scriptcontents;
@@ -215,7 +242,8 @@ class WP_JsonLD {
      * @since 0.1
      */
     function add_markup() {
-        // WP_JsonLD::check_cache_dir();
+        // the text markup to be inserted.
+        $markup = null;
 
         // Get the data needed for building the JSON-LD
         if (is_single()) {
@@ -225,7 +253,6 @@ class WP_JsonLD {
                 $markup = $this->create_jsonld_blogposting();
                 set_transient('wp_jsonld-article_' . $postid, $markup, 0);
             }
-
         } elseif (is_author()) {
             $auId = get_the_author_meta( 'ID' );
 
@@ -233,12 +260,14 @@ class WP_JsonLD {
                 $markup = $this->create_jsonld_author();
                 set_transient('wp_jsonld-author_' . $auId, $markup, 0);
             }
-
         }
 
-        echo '<script type="application/ld+json" src="' . $scripturl . '">'
-            . $markup
-            . '</script>';
+        // if markup found, insert.
+        if (!null === $markup) {
+            echo '<script type="application/ld+json">'
+                . $markup
+                . '</script>';
+        }
     } // end function
 
 
@@ -256,8 +285,13 @@ class WP_JsonLD {
         }
     } 
 
+    public static function wpjsonld_remove_yasr($content) {
+        remove_filter('the_content', 'yasr_add_schema');
 
+        return $content;
+    }
 }
+
 
 /* Autoload Init */
 spl_autoload_register(__NAMESPACE__ . '\WP_JsonLD::jsonld_autoload');
@@ -265,4 +299,8 @@ spl_autoload_register(__NAMESPACE__ . '\WP_JsonLD::jsonld_autoload');
 // start plugin.
 $wpjsonld_plugin = new WP_JsonLD;
 add_action('wp_footer', array($wpjsonld_plugin, 'add_markup'));
+
+// remove foreign rating.
+remove_filter('the_content', 'yasr_add_schema');
+add_action('the_post',  array($wpjsonld_plugin, 'wpjsonld_remove_yasr'));
 
