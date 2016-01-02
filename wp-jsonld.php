@@ -170,6 +170,14 @@ class WP_JsonLD {
             "@id" => $id);
     }
 
+    function create_jsonld_page() {
+        $markup = null;
+        //$markup = $this->create_article_entity();
+        // TODO: check for pagination
+
+        return $markup;
+    }
+
     function create_jsonld_author() {
         $markup = $this->create_author_entity(true);
         //$markup->mainEntityOfPage = createMainEntity('WebPage', $markup->url);
@@ -260,6 +268,14 @@ class WP_JsonLD {
                 $markup = $this->create_jsonld_blogposting();
                 set_transient('wp_jsonld-article_' . $postid, $markup, 0);
             }
+        } elseif (is_page()) {
+            $pageid = get_the_id();
+
+            if ( false === ( $markup = get_transient( 'wp_jsonld-page_' . $pageid ) ) ) {
+                $markup = $this->create_jsonld_page();
+                set_transient('wp_jsonld-page_' . $page, $markup, 0);
+            }
+        
         } elseif (is_author()) {
             $auId = get_the_author_meta( 'ID' );
 

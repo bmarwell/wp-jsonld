@@ -6,7 +6,7 @@ Donate link:
 Tags: json-ld, markup, schema, rich snippets, structured data, microdata, SEO,schema.org,schema markup,JSON
 Requires at least: 4.0
 Tested up to: 4.4
-Stable tag: 0.3.1
+Stable tag: 0.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,20 +56,29 @@ If you need to install this using FTP or SFTP, you should follow these steps:
 
 **Compatibility.** This version requires php 5.4 for some options of json\_encode. If you encounter any problems with the plugin you should check your web hotel’s php version.
 
-## Frequently Asked Questions ==
-**How do I test if this plugin works?** Go to https://developers.google.com/structured-data/testing-tool/ and enter the URL of one of your articles / blog posts.
+## Frequently Asked Questions
 
-**Are Authors (Person) markups supported on author pages?** Soon.
+**How do I test if this plugin works?**
+Go to https://developers.google.com/structured-data/testing-tool/ and enter the URL of one of your articles / blog posts.
 
-**Does this plugin produce valid markup?** According to Google, yes.
+**Are Authors (Person) markups supported on author pages?**
+Starting with 0.4.0. If you don't see markup on author pages or normal pages,
+         please be so kind as to write a ticket.
 
-**Where is the logo taken from?** Currently it uses https://logo.clearbit.com/&lt;url&gt;. This will change soon.
+**Does this plugin produce valid markup?**
+According to Google, yes.
 
-**Does this plugin X?** Most probably, it does not. This plugin simply adds to the footer of your single post views valid JSON-LD filled with the data from the WP database. You should not see anything new on the page - the JSON-LD can be seen only in the source code of the web page.
+**Where is the logo taken from?**
+Currently it uses https://logo.clearbit.com/&lt;url&gt;. This will change soon.
 
-**Why should I install this plugin?** Installing this plugin is the easiest way to add structured data to your blog. The plugin automatically creates the JSON-LD according to Google’s specification. 
+**Does this plugin X?**
+Most probably, it does not. This plugin simply adds to the footer of your single post views valid JSON-LD filled with the data from the WP database. You should not see anything new on the page - the JSON-LD can be seen only in the source code of the web page.
 
-**Does this plugin improve my SEO rankings?** We cannot promise it - but installing this plugin is in any case a step in right direction.
+**Why should I install this plugin?**
+Installing this plugin is the easiest way to add structured data to your blog. The plugin automatically creates the JSON-LD according to Google’s specification. 
+
+**Does this plugin improve my SEO rankings?**
+We cannot promise it - but installing this plugin is in any case a step in right direction.
 
 ## Screenshots
 
@@ -77,11 +86,14 @@ Screenshots will be added soon.
 
 ## Changelog 
 
-### 0.3
+### 0.4.0
+* Added support for pages.
+
+### 0.3.0
 * Use transients for caching.
 * Use tag 'aggregateRating' if YSSR is installed.
 
-### 0.2
+### 0.2.0
 * Extended the functionality a bit and completely refactored the code to make it much more readable.
 
 ### 0.1
