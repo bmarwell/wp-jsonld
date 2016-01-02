@@ -236,6 +236,13 @@ class WP_JsonLD {
         return $scriptcontents;
     }
 
+    function delete_transients() {
+        global $wpdb;
+
+        $wpdb->query("DELETE FROM `wp_options` WHERE `option_name` LIKE ('_transient_wp_jsonld-%')");
+        $wpdb->query( "DELETE FROM `wp_options` WHERE `option_name` LIKE ('_transient_timeout_wp_jsonld-%')" );
+    }
+
     /**
      * Echoes Markup to your footer.
      * @author Mikko Piippo, Tomi Lattu
@@ -304,3 +311,10 @@ add_action('wp_footer', array($wpjsonld_plugin, 'add_markup'));
 remove_filter('the_content', 'yasr_add_schema');
 add_action('the_post',  array($wpjsonld_plugin, 'wpjsonld_remove_yasr'));
 
+
+// remove transients after page changes
+add_action('comment_post', array($wpjsonld_plugin, 'delete_transients'));
+add_action('edit_comment', array($wpjsonld_plugin, 'delete_transients'));
+add_action('edit_post',  array($wpjsonld_plugin, 'delete_transients'));
+add_action('publish_post', array($wpjsonld_plugin, 'delete_transients'));
+add_action('publish_page',  array($wpjsonld_plugin, 'delete_transients'));
