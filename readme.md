@@ -10,11 +10,13 @@ Stable tag: 0.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-wp-jsonld is the continuation of the simplest solution to add valid schema.org microdata as JSON-LD-script to your blog posts and articles.
+Adds valid schema.org microdata as JSON-LD-script to your blog posts, author pages and articles.
 
 ## Description
 
 ### Why this plugin exists
+Adds valid schema.org microdata as JSON-LD-script to your blog posts, author pages and articles.
+
 Original Plugin (discontinued): https://de.wordpress.org/plugins/json-ld-for-article/
 
 Sadly, he original plugin is not being developed anymore. So I decided to fix some bugs like invalid markup,
@@ -82,7 +84,7 @@ We cannot promise it - but installing this plugin is in any case a step in right
 
 ## Screenshots
 
-Screenshots will be added soon.
+1. The generated output on the left as seen in Googles Structured Data Testing Tool. On the right you can see that google will parse it with no errors, except for a missing company logo.
 
 ## Changelog 
 
