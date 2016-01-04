@@ -3,7 +3,7 @@
 
 Contributors: Benjamin Marwell
 Original Authors: Mikko Piippo, tlattu
-Donate link:
+Donate link: http://bit.ly/1SuWBoP
 Tags: json-ld, markup, schema, rich snippets, structured data, microdata, SEO,schema.org,schema markup,JSON
 Requires at least: 4.0
 Tested up to: 4.4
