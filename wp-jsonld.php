@@ -225,7 +225,11 @@ class WP_JsonLD {
         $markup->image = $this->createImage();
         // this is mean. The Page with posts can be another page
         // than home_url() or site_url().
-        $blogurl = get_permalink(get_option('page_for_posts'));
+        if (get_option('show_on_front') == 'page') {
+            $blogurl = get_permalink(get_option('page_for_posts'));
+        } else {
+            $blogurl = home_url('/');
+        }
         $markup->mainEntityOfPage = $this->createMainEntity('WebPage', $blogurl);
         //$markup->generatedAt = date('Y-m-d H:i:s');
 
