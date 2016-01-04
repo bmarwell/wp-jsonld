@@ -7,7 +7,7 @@ Donate link:
 Tags: json-ld, markup, schema, rich snippets, structured data, microdata, SEO,schema.org,schema markup,JSON
 Requires at least: 4.0
 Tested up to: 4.4
-Stable tag: 0.3.1
+Stable tag: 0.3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,7 @@ wp-jsonld is the continuation of the simplest solution to add valid schema.org m
 ### Why this plugin exists
 Original Plugin (discontinued): https://de.wordpress.org/plugins/json-ld-for-article/
 
-Sadly, he original plugin is not being developed anymore. So I decided to fix some bugs like invalid markup,
+Sadly, the original plugin is not being developed anymore. So I decided to fix some bugs like invalid markup,
     missing tags, putting objects into fields instead of just URLs for images, and implementing for more than just
     articles.
 
@@ -78,11 +78,17 @@ Screenshots will be added soon.
 
 ## Changelog 
 
-### 0.3
+### 0.3.2
+* Find correct front page.
+
+### 0.3.1
+* updated type so release could be pushed.
+
+### 0.3.0
 * Use transients for caching.
 * Use tag 'aggregateRating' if YSSR is installed.
 
-### 0.2
+### 0.2.0
 * Extended the functionality a bit and completely refactored the code to make it much more readable.
 
 ### 0.1
