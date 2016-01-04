@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/bmhm/wp-jsonld.png?label=ready&title=Ready)](https://waffle.io/bmhm/wp-jsonld)
 # wp-jsonld
 
 Contributors: Benjamin Marwell
