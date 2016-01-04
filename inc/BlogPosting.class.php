@@ -17,15 +17,17 @@
 namespace bmarwell\wp_jsonld;
 
 use bmarwell\wp_jsonld\JsonLD;
+use bmarwell\wp_jsonld\Article;
+use bmarwell\wp_jsonld\Author;
 
 /**
- * Class: Article.
+ * Class: BlogPosting.
  *
- * Represents an article
+ * Represents an BlogPosting
  *
  * @see JsonLD
  */
-class Article extends JsonLD
+class BlogPosting extends Article
 {
     /**
      * headline
@@ -56,7 +58,7 @@ class Article extends JsonLD
     public $commentCount;
 
     /**
-     * dateModified - the date when this article
+     * dateModified - the date when this BlogPosting
      * was modified last.
      *
      * @var Date
@@ -83,7 +85,7 @@ class Article extends JsonLD
       */
     public function __construct($addContext = false)
     {
-        parent::__construct("Article", $addContext);
+        JsonLD::__construct("BlogPosting", $addContext);
     }
 }
 

@@ -1,26 +1,32 @@
-=== wp-jsonld ===
+# wp-jsonld
+
 Contributors: Benjamin Marwell
 Original Authors: Mikko Piippo, tlattu
 Donate link:
 Tags: json-ld, markup, schema, rich snippets, structured data, microdata, SEO,schema.org,schema markup,JSON
 Requires at least: 4.0
-Tested up to: 4.2.2
-Stable tag: 0.1
+Tested up to: 4.4
+Stable tag: 0.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 wp-jsonld is the continuation of the simplest solution to add valid schema.org microdata as JSON-LD-script to your blog posts and articles.
 
-== Description ==
+## Description
 
-=== Why this plugin exists ===
+### Why this plugin exists
 Original Plugin (discontinued): https://de.wordpress.org/plugins/json-ld-for-article/
 
 Sadly, he original plugin is not being developed anymore. So I decided to fix some bugs like invalid markup,
     missing tags, putting objects into fields instead of just URLs for images, and implementing for more than just
     articles.
 
-=== Original description ===
+Also, this plugin plays nicely with [YASR - yet another star rating](https://de.wordpress.org/plugins/yet-another-stars-rating/). It will
+remove yasr's invalid jsonld-syntax and instead use YASRs rating.
+
+All requests are being cached and purged on page update/edit etc.
+
+### Original description
 Search engines such as Google are using structured data markup in many ways—for example, to create rich snippets in search results. Search results with rich snippets will improve your click through rates and increase the number of visitors on your website.
 
 It has been a tedious task to add the complicated Schema.org markup to your website - sometimes it wasn’t even possible due to technical constraints. Now, thanks to **JSON-LD**, almost any website can enjoy the benefits of structured data. For WordPress users it’s even easier thanks to this plugin.
@@ -38,7 +44,7 @@ Our plugin:
 * Is simple to install: plug-and-play, no need to configure anything.
 
 
-== Installation ==
+## Installation
 
 The easiest way to install the plugin is to use the WP built-in menu for finding and installing new plugins directly from the WordPress repositories.
 
@@ -48,9 +54,9 @@ If you need to install this using FTP or SFTP, you should follow these steps:
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. That’s it.
 
-**Compatibility.** This version requires php 5.4 for some options of json_encode. If you encounter any problems with the plugin you should check your web hotel’s php version.
+**Compatibility.** This version requires php 5.4 for some options of json\_encode. If you encounter any problems with the plugin you should check your web hotel’s php version.
 
-== Frequently Asked Questions ==
+## Frequently Asked Questions ==
 **How do I test if this plugin works?** Go to https://developers.google.com/structured-data/testing-tool/ and enter the URL of one of your articles / blog posts.
 
 **Are Authors (Person) markups supported on author pages?** Soon.
@@ -65,14 +71,18 @@ If you need to install this using FTP or SFTP, you should follow these steps:
 
 **Does this plugin improve my SEO rankings?** We cannot promise it - but installing this plugin is in any case a step in right direction.
 
-== Screenshots ==
+## Screenshots
 
 Screenshots will be added soon.
 
-== Changelog ==
+## Changelog 
 
-=== 0.2 ===
+### 0.3
+* Use transients for caching.
+* Use tag 'aggregateRating' if YSSR is installed.
+
+### 0.2
 * Extended the functionality a bit and completely refactored the code to make it much more readable.
 
-=== 0.1 ===
+### 0.1
 *  This is a fully functional version based on the idea of minimum viable product. It delivers what it promises, without any bells and whistles. Some people might regard this as a beta version :)
