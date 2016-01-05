@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
 Plugin Name:    WP-JSONLD
 Description:    WP-JSONLD adds valid schema.org microdata as JSON-LD-script to your blog posts, author pages and articles.
@@ -195,25 +195,36 @@ class WP_JsonLD {
      * @since 0.3
      * */
     function createRating() {
+        $ratingMarkup = null;
         $visitor_votes = yasr_get_visitor_votes();
 
-        if ($visitor_votes) {
-            foreach ($visitor_votes as $rating) {
-                $visitor_rating['votes_number']=$rating->number_of_votes;
-                $visitor_rating['sum']=$rating->sum_votes;
-            }
+        /*
+         * This function should not return null,
+         * but to be safe, it is tested.
+         * */
+        if (empty($visitor_votes)) {
+            return $ratingMarkup;
         }
 
-        if ($visitor_rating['sum'] != 0 && $visitor_rating['votes_number'] != 0) {
-            $average_rating = $visitor_rating['sum'] / $visitor_rating['votes_number'];
-            $average_rating = round($average_rating, 1);
-
-            $ratingMarkup = array(
-                "@type" => "AggregateRating",
-                "ratingValue" => "$average_rating",
-                "ratingCount" => $visitor_rating['votes_number'],
-             );
+        foreach ($visitor_votes as $rating) {
+            $visitor_rating['votes_number'] = $rating->number_of_votes;
+            $visitor_rating['sum'] = $rating->sum_votes;
         }
+
+        /*
+         * There needs to be something to calculate from.
+         * I.e. at least one rating.
+         * */
+        if ($visitor_rating['sum'] == 0 || $visitor_rating['votes_number'] == 0) {
+            return $ratingMarkup;
+        }
+
+        $average_rating = $visitor_rating['sum'] / $visitor_rating['votes_number'];
+        $average_rating = round($average_rating, 1);
+
+        $ratingMarkup = new AggregateRating();
+        $ratingMarkup->ratingValue = $average_rating;
+        $ratingMarkup->ratingCount = $visitor_rating['votes_number'];
 
         return $ratingMarkup;
     }
@@ -279,7 +290,6 @@ class WP_JsonLD {
                 $markup = $this->create_jsonld_page();
                 set_transient('wp_jsonld-page_' . $page, $markup, 0);
             }
-        
         } elseif (is_author()) {
             $auId = get_the_author_meta( 'ID' );
 
@@ -306,11 +316,10 @@ class WP_JsonLD {
             ".class.php"
         );
 
-            //require_once($path);  
         if (file_exists($path)) {
-            require_once($path);  
+            require_once($path);
         }
-    } 
+    }
 
     public static function wpjsonld_remove_yasr($content) {
         remove_filter('the_content', 'yasr_add_schema');
