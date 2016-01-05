@@ -1,4 +1,3 @@
-[![Stories in Ready](https://badge.waffle.io/bmhm/wp-jsonld.png?label=ready&title=Ready)](https://waffle.io/bmhm/wp-jsonld)
 # wp-jsonld
 
 Contributors: Benjamin Marwell
@@ -26,6 +25,8 @@ Also, this plugin plays nicely with [YASR - yet another star rating](https://de.
 remove yasr's invalid jsonld-syntax and instead use YASRs rating.
 
 All requests are being cached and purged on page update/edit etc.
+
+[![Stories in Ready](https://badge.waffle.io/bmhm/wp-jsonld.png?label=ready&title=Ready)](https://waffle.io/bmhm/wp-jsonld)
 
 ### Original description
 Search engines such as Google are using structured data markup in many ways—for example, to create rich snippets in search results. Search results with rich snippets will improve your click through rates and increase the number of visitors on your website.
@@ -57,7 +58,7 @@ If you need to install this using FTP or SFTP, you should follow these steps:
 
 **Compatibility.** This version requires php 5.4 for some options of json\_encode. If you encounter any problems with the plugin you should check your web hotel’s php version.
 
-## Frequently Asked Questions ==
+## Frequently Asked Questions
 **How do I test if this plugin works?** Go to https://developers.google.com/structured-data/testing-tool/ and enter the URL of one of your articles / blog posts.
 
 **Are Authors (Person) markups supported on author pages?** Soon.
