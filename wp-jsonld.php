@@ -170,12 +170,62 @@ class WP_JsonLD {
             "@id" => $id);
     }
 
+    /**
+     * create_article_entity
+     *
+     * @param bool|FALSE $isParent
+     * @return Article
+     */
+    function create_article_entity($isParent = false) {
+        $article = new Article($isParent);
+
+        // Basic info
+        $article->headline = get_the_title();
+        $article->datePublished = get_the_date('Y-m-d H:i:s');
+        $article->url = get_permalink();
+        $article->setId(get_permalink());
+
+        // Addition info
+        $article->articleSection = get_the_category()[0]->cat_name;
+        $article->dateModified = get_the_modified_date('Y-m-d H:i:s');
+        $article->commentCount = get_comments_number();
+
+        // Thumbnail if exists
+
+        return $article;
+    }
+
     function create_jsonld_page() {
         $markup = null;
-        //$markup = $this->create_article_entity();
+        $markup = $this->create_article_entity(true);
+        $markup->author = $this->create_author_entity(false);
+        $markup->publisher = $this->createOrganization();
+        $markup->image = $this->createImage();
+        // this is mean. The Page with posts can be another page
+        // than home_url() or site_url().
+        if (get_option('show_on_front') == 'page') {
+            $blogurl = get_permalink(get_option('page_for_posts'));
+        } else {
+            $blogurl = home_url('/');
+        }
+        $markup->mainEntityOfPage = $this->createMainEntity('WebPage', $blogurl);
+        //$markup->generatedAt = date('Y-m-d H:i:s');
+
+        // create rating if yasr is installed.
+        if (function_exists("yasr_get_visitor_votes")) {
+            $visitor_votes = yasr_get_visitor_votes();
+
+            if ($visitor_votes) {
+                $markup->aggregateRating = $this->createRating();
+            }
+
+        }
+
         // TODO: check for pagination
 
-        return $markup;
+        $scriptcontents = json_encode($markup, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
+
+        return $scriptcontents;
     }
 
     function create_jsonld_author() {
@@ -284,11 +334,13 @@ class WP_JsonLD {
                 set_transient('wp_jsonld-article_' . $postid, $markup, 0);
             }
         } elseif (is_page()) {
+            // Outside the loop, get_the_id is not working that easily.
+            $page = get_page_by_title($page_name);
             $pageid = get_the_id();
 
             if ( false === ( $markup = get_transient( 'wp_jsonld-page_' . $pageid ) ) ) {
                 $markup = $this->create_jsonld_page();
-                set_transient('wp_jsonld-page_' . $page, $markup, 0);
+                set_transient('wp_jsonld-page_' . $pageid, $markup, 0);
             }
         } elseif (is_author()) {
             $auId = get_the_author_meta( 'ID' );
