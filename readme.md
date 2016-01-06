@@ -12,6 +12,11 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 wp-jsonld is the continuation of the simplest solution to add valid schema.org microdata as JSON-LD-script to your blog posts and articles.
 
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/33f568eae788433d92a8f0f75ed0e408)](https://www.codacy.com/app/bmarwell/wp-jsonld)
+[![Stories in Ready](https://badge.waffle.io/bmhm/wp-jsonld.png?label=ready&title=Ready)](https://waffle.io/bmhm/wp-jsonld)
+[![Issue Stats](http://issuestats.com/github/bmhm/wp-jsonld/badge/issue)](http://issuestats.com/github/bmhm/wp-jsonld)
+[![Issue Stats](http://issuestats.com/github/bmhm/wp-jsonld/badge/pr)](http://issuestats.com/github/bmhm/wp-jsonld)
+
 ## Description
 
 ### Why this plugin exists
@@ -26,9 +31,6 @@ remove yasr's invalid jsonld-syntax and instead use YASRs rating.
 
 All requests are being cached and purged on page update/edit etc.
 
-[![Stories in Ready](https://badge.waffle.io/bmhm/wp-jsonld.png?label=ready&title=Ready)](https://waffle.io/bmhm/wp-jsonld)
-[![Issue Stats](http://issuestats.com/github/bmhm/wp-jsonld/badge/issue)](http://issuestats.com/github/bmhm/wp-jsonld)
-[![Issue Stats](http://issuestats.com/github/bmhm/wp-jsonld/badge/pr)](http://issuestats.com/github/bmhm/wp-jsonld)
 
 ### Original description
 Search engines such as Google are using structured data markup in many ways—for example, to create rich snippets in search results. Search results with rich snippets will improve your click through rates and increase the number of visitors on your website.
