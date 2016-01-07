@@ -142,10 +142,10 @@ class WPJsonLD {
      * @param String $type
      * @param String $id
      */
-    public function createMainEntity($type = 'Article', $id = null) {
+    public function createMainEntity($type = 'Article', $identifier = null) {
         return array(
             "@type" => $type,
-            "@id" => $id);
+            "@id" => $identifier);
     }
 
     /**
