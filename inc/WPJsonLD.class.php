@@ -183,7 +183,6 @@ class WPJsonLD {
         $toolclass = $this->wpJsonLdTools;
         $blogurl = $toolclass::getBlogUrl();
         $markup->mainEntityOfPage = $this->createMainEntity('WebPage', $blogurl);
-        //$markup->generatedAt = date('Y-m-d H:i:s');
 
         // create rating if yasr is installed.
         if (function_exists("yasr_get_visitor_votes")) {
@@ -192,7 +191,6 @@ class WPJsonLD {
             if ($visitorVotes) {
                 $markup->aggregateRating = $this->createRating();
             }
-
         }
 
         // TODO: check for pagination
@@ -269,7 +267,6 @@ class WPJsonLD {
             if ($visitorVotes) {
                 $markup->aggregateRating = $this->createRating();
             }
-
         }
 
         $scriptcontents = json_encode($markup, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
