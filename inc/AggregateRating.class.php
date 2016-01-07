@@ -17,7 +17,6 @@
 namespace bmarwell\wp_jsonld;
 
 use bmarwell\wp_jsonld\Rating;
-use bmarwell\wp_jsonld\JsonLD;
 
 /**
  * Class: AggregateRating.

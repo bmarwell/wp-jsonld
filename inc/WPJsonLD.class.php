@@ -29,7 +29,6 @@ use bmarwell\wp_jsonld\Author;
 use bmarwell\wp_jsonld\BlogPosting;
 use bmarwell\wp_jsonld\ImageObject;
 use bmarwell\wp_jsonld\Organization;
-use bmarwell\wp_jsonld\WPJsonLdTools;
 
 /**
  * @author Mikko Piippo, Tomi Lattu
