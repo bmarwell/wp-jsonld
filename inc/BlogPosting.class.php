@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (C) 2015
+ * Copyright (C) 2016
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -15,10 +15,6 @@
  */
 
 namespace bmarwell\wp_jsonld;
-
-use bmarwell\wp_jsonld\JsonLD;
-use bmarwell\wp_jsonld\Article;
-use bmarwell\wp_jsonld\Author;
 
 /**
  * Class: BlogPosting.
@@ -61,7 +57,7 @@ class BlogPosting extends Article
      * dateModified - the date when this BlogPosting
      * was modified last.
      *
-     * @var Date
+     * @var \DateTime
      */
     public $dateModified;
 
@@ -85,8 +81,7 @@ class BlogPosting extends Article
       */
     public function __construct($addContext = false)
     {
+        parent::__construct($addContext);
         JsonLD::__construct("BlogPosting", $addContext);
     }
 }
-
-

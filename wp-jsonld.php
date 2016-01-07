@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
 Plugin Name:    WP-JSONLD
 Description:    WP-JSONLD adds valid schema.org microdata as JSON-LD-script to your blog posts, author pages and articles.
@@ -26,29 +26,26 @@ with WP-JSONLD for Aricle; if not, write to the Free Software Foundation, Inc.,
 
 namespace bmarwell\wp_jsonld;
 
-use bmarwell\wp_jsonld\Author;
-use bmarwell\wp_jsonld\BlogPosting;
-use bmarwell\wp_jsonld\ImageObject;
-use bmarwell\wp_jsonld\Organization;
-
-/**
- * @author Mikko Piippo, Tomi Lattu
- * @since 0.1
- * @license http://www.gnu.org/licenses/gpl-2.0.html GPLv2 or later
- */
+    /**
+     * @author Mikko Piippo, Tomi Lattu
+     * @since 0.1
+     * @license http://www.gnu.org/licenses/gpl-2.0.html GPLv2 or later
+     */
 
 
 /* Constants */
 define('JSONLD_DIR', dirname(__FILE__));
 
-class WP_JsonLD {
+class WP_JsonLD
+{
     /**
      * createBlogPosting
      *
      * @param bool|FALSE $isParent
      * @return BlogPosting
      */
-    function createBlogPosting($isParent = false) {
+    public function createBlogPosting($isParent = false)
+    {
         $blogpost = new BlogPosting($isParent);
 
         // Basic info
@@ -71,9 +68,11 @@ class WP_JsonLD {
      * create_author_entity( - create Author Markup
      *
      * @param bool|FALSE $isParent
+     * @return Author
      */
-    function create_author_entity($isParent = false) {
-        $auId = get_the_author_meta( 'ID' );
+    public function create_author_entity($isParent = false)
+    {
+        $auId = get_the_author_meta('ID');
         $author = new Author($isParent);
         $author->name = get_the_author_meta('display_name');
         $author->url = get_author_posts_url($auId);
@@ -86,12 +85,13 @@ class WP_JsonLD {
     /**
      * createOrganization
      *
-     *
      * Creates an organization object for the blog.
      *
      * @param bool|FALSE $isParent set to true to insert @context
+     * @return Organization
      */
-    function createOrganization($isParent = false) {
+    public function createOrganization($isParent = false)
+    {
         $org = new Organization($isParent);
         $org->name = get_bloginfo('name');
         $org->legalName = get_bloginfo('name');
@@ -108,8 +108,10 @@ class WP_JsonLD {
      * Creates an image for the post thumbnail.
      *
      * @param bool $isParent
+     * @return ImageObject
      */
-    function createImage($isParent = false) {
+    public function createImage($isParent = false)
+    {
         $thId = get_post_thumbnail_id();
         $img = new ImageObject($isParent);
 
@@ -132,8 +134,10 @@ class WP_JsonLD {
      * createLogo
      *
      * @param bool|FALSE $isParent
+     * @return ImageObject
      */
-    function createLogo($isParent = false) {
+    public function createLogo($isParent = false)
+    {
         $logourl = "https://logo.clearbit.com/" . WP_JsonLD::stripProtocolScheme(get_site_url());
         $logo = new ImageObject($isParent);
         $logo->setId($logourl);
@@ -146,12 +150,14 @@ class WP_JsonLD {
      * stripProtocolScheme
      *
      * @param String $url
+     * @return mixed|String
      */
-    static function stripProtocolScheme($url) {
+    public static function stripProtocolScheme($url)
+    {
         $disallowed = array('http://', 'https://', 'spdy://', '://', '//');
 
-        foreach($disallowed as $d) {
-            if(strpos($url, $d) === 0) {
+        foreach ($disallowed as $d) {
+            if (strpos($url, $d) === 0) {
                 return str_replace($d, '', $url);
             }
         }
@@ -164,19 +170,25 @@ class WP_JsonLD {
      *
      * @param String $type
      * @param String $id
+     * @return array
      */
-    function createMainEntity($type = 'Article', $id = null) {
+    public function createMainEntity($type = 'Article', $id = null)
+    {
         return array(
             "@type" => $type,
             "@id" => $id);
     }
 
-    function create_jsonld_author() {
+    /**
+     * @return string
+     */
+    public function create_jsonld_author()
+    {
         $markup = $this->create_author_entity(true);
         //$markup->mainEntityOfPage = createMainEntity('WebPage', $markup->url);
         //$markup->generatedAt = date('Y-m-d H:i:s');
 
-        $scriptcontents = json_encode($markup, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
+        $scriptcontents = json_encode($markup, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
         return $scriptcontents;
     }
@@ -187,13 +199,14 @@ class WP_JsonLD {
      * TODO: Convert to JsonLD Object instead of using array.
      * @since 0.3
      * */
-    function createRating() {
+    public function createRating()
+    {
         $visitor_votes = yasr_get_visitor_votes();
 
         if ($visitor_votes) {
             foreach ($visitor_votes as $rating) {
-                $visitor_rating['votes_number']=$rating->number_of_votes;
-                $visitor_rating['sum']=$rating->sum_votes;
+                $visitor_rating['votes_number'] = $rating->number_of_votes;
+                $visitor_rating['sum'] = $rating->sum_votes;
             }
         }
 
@@ -205,13 +218,17 @@ class WP_JsonLD {
                 "@type" => "AggregateRating",
                 "ratingValue" => "$average_rating",
                 "ratingCount" => $visitor_rating['votes_number'],
-             );
+            );
         }
 
         return $ratingMarkup;
     }
 
-    function create_jsonld_blogposting() {
+    /**
+     * @return string
+     */
+    public function create_jsonld_blogposting()
+    {
         $markup = $this->createBlogPosting(true);
         $markup->author = $this->create_author_entity();
         $markup->publisher = $this->createOrganization();
@@ -236,16 +253,17 @@ class WP_JsonLD {
 
         }
 
-        $scriptcontents = json_encode($markup, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
+        $scriptcontents = json_encode($markup, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
         return $scriptcontents;
     }
 
-    function delete_transients() {
+    public function delete_transients()
+    {
         global $wpdb;
 
         $wpdb->query("DELETE FROM `wp_options` WHERE `option_name` LIKE ('_transient_wp_jsonld-%')");
-        $wpdb->query( "DELETE FROM `wp_options` WHERE `option_name` LIKE ('_transient_timeout_wp_jsonld-%')" );
+        $wpdb->query("DELETE FROM `wp_options` WHERE `option_name` LIKE ('_transient_timeout_wp_jsonld-%')");
     }
 
     /**
@@ -253,7 +271,8 @@ class WP_JsonLD {
      * @author Mikko Piippo, Tomi Lattu
      * @since 0.1
      */
-    function add_markup() {
+    public function add_markup()
+    {
         // the text markup to be inserted.
         $markup = null;
 
@@ -261,14 +280,14 @@ class WP_JsonLD {
         if (is_single()) {
             $postid = get_the_id();
 
-            if ( false === ( $markup = get_transient( 'wp_jsonld-article_' . $postid ) ) ) {
+            if (false === ($markup = get_transient('wp_jsonld-article_' . $postid))) {
                 $markup = $this->create_jsonld_blogposting();
                 set_transient('wp_jsonld-article_' . $postid, $markup, 0);
             }
         } elseif (is_author()) {
-            $auId = get_the_author_meta( 'ID' );
+            $auId = get_the_author_meta('ID');
 
-            if ( false === ( $markup = get_transient( 'wp_jsonld-author_' . $auId ) ) ) {
+            if (false === ($markup = get_transient('wp_jsonld-author_' . $auId))) {
                 $markup = $this->create_jsonld_author();
                 set_transient('wp_jsonld-author_' . $auId, $markup, 0);
             }
@@ -284,20 +303,26 @@ class WP_JsonLD {
 
 
     /* Autoload Funktion */
-    public static function jsonld_autoload($class) {
+    public static function jsonld_autoload($class)
+    {
         $path = sprintf("%s/inc/%s%s",
             JSONLD_DIR,
-            substr($class, strrpos($class, '\\')+1),
+            substr($class, strrpos($class, '\\') + 1),
             ".class.php"
         );
 
-            //require_once($path);  
+        //require_once($path);
         if (file_exists($path)) {
-            require_once($path);  
+            require_once($path);
         }
-    } 
+    }
 
-    public static function wpjsonld_remove_yasr($content) {
+    /**
+     * @param $content
+     * @return mixed
+     */
+    public static function wpjsonld_remove_yasr($content)
+    {
         remove_filter('the_content', 'yasr_add_schema');
 
         return $content;
@@ -314,12 +339,12 @@ add_action('wp_footer', array($wpjsonld_plugin, 'add_markup'));
 
 // remove foreign rating.
 remove_filter('the_content', 'yasr_add_schema');
-add_action('the_post',  array($wpjsonld_plugin, 'wpjsonld_remove_yasr'));
+add_action('the_post', array($wpjsonld_plugin, 'wpjsonld_remove_yasr'));
 
 
 // remove transients after page changes
 add_action('comment_post', array($wpjsonld_plugin, 'delete_transients'));
 add_action('edit_comment', array($wpjsonld_plugin, 'delete_transients'));
-add_action('edit_post',  array($wpjsonld_plugin, 'delete_transients'));
+add_action('edit_post', array($wpjsonld_plugin, 'delete_transients'));
 add_action('publish_post', array($wpjsonld_plugin, 'delete_transients'));
-add_action('publish_page',  array($wpjsonld_plugin, 'delete_transients'));
+add_action('publish_page', array($wpjsonld_plugin, 'delete_transients'));

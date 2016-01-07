@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (C) 2015
+ * Copyright (C) 2016
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -15,8 +15,6 @@
  */
 
 namespace bmarwell\wp_jsonld;
-
-use bmarwell\wp_jsonld\JsonLD;
 
 /**
  * Class: ImageObject.
@@ -55,7 +53,7 @@ class ImageObject extends JsonLD
      *
      * An image of this item(?).
      *
-     * @var URL
+     * @var string
      */
     public $image;
 
@@ -85,5 +83,3 @@ class ImageObject extends JsonLD
         parent::__construct("ImageObject", $addContext);
     }
 }
-
-

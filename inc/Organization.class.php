@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (C) 2015
+ * Copyright (C) 2016
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -15,8 +15,6 @@
  */
 
 namespace bmarwell\wp_jsonld;
-
-use bmarwell\wp_jsonld\JsonLD;
 
 /**
  * Class: Organization.
@@ -49,12 +47,10 @@ class Organization extends JsonLD
     public $legalName;
 
     /**
-      * @param bool|FALSE $addContext
-      */
+     * @param bool|FALSE $addContext
+     */
     public function __construct($addContext = false)
     {
         parent::__construct("Organization", $addContext);
     }
 }
-
-

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (C) 2015
+ * Copyright (C) 2016
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -36,6 +36,7 @@ abstract class JsonLD
         $this->$type = $jsonldtype;
         $this->$id = null;
     }
+
     /**
      * Setter for @id. Sadly, schema.org and json-ld do require an @id-field,
      * but php of course doesn't allow this directly. You can still do set the
@@ -48,5 +49,3 @@ abstract class JsonLD
         $this->$id = $newId;
     }
 }
-
-
