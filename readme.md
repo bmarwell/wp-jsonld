@@ -16,6 +16,8 @@ wp-jsonld is the continuation of the simplest solution to add valid schema.org m
 [![Stories in Ready](https://badge.waffle.io/bmhm/wp-jsonld.png?label=ready&title=Ready)](https://waffle.io/bmhm/wp-jsonld)
 [![Issue Stats](http://issuestats.com/github/bmhm/wp-jsonld/badge/issue)](http://issuestats.com/github/bmhm/wp-jsonld)
 [![Issue Stats](http://issuestats.com/github/bmhm/wp-jsonld/badge/pr)](http://issuestats.com/github/bmhm/wp-jsonld)
+[![Code Climate](https://codeclimate.com/github/bmhm/wp-jsonld/badges/gpa.svg)](https://codeclimate.com/github/bmhm/wp-jsonld)
+[![Issue Count](https://codeclimate.com/github/bmhm/wp-jsonld/badges/issue_count.svg)](https://codeclimate.com/github/bmhm/wp-jsonld)
 
 ## Description
 
