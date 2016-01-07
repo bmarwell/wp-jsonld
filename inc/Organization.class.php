@@ -50,8 +50,8 @@ class Organization extends JsonLD {
     /**
       * @param bool|FALSE $addContext
       */
-    public function __construct() {
-        parent::__construct("Organization");
+    public function __construct($type = "Organization") {
+        parent::__construct($type);
     }
 }
 

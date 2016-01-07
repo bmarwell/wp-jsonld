@@ -48,7 +48,7 @@ class WPJsonLD {
      *
      * @return BlogPosting
      */
-    function createBlogPosting() {
+    public function createBlogPosting() {
         $blogpost = new BlogPosting();
 
         // Basic info

@@ -64,8 +64,8 @@ class Rating extends JsonLD {
 
     /**
       */
-    public function __construct() {
-        parent::__construct("Rating");
+    public function __construct($type = "Rating") {
+        parent::__construct($type);
     }
 }
 

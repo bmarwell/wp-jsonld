@@ -80,8 +80,8 @@ class Article extends JsonLD {
     /**
       * @param bool|FALSE $addContext
       */
-    public function __construct() {
-        parent::__construct("Article");
+    public function __construct($type = "Article") {
+        parent::__construct($type);
     }
 }
 

@@ -52,8 +52,8 @@ class AggregateRating extends Rating {
     /**
       * @param bool|FALSE $addContext
       */
-    public function __construct() {
-        JsonLD::__construct("AggregateRating");
+    public function __construct($type = "AggregateRating") {
+        parent::__construct();
     }
 }
 

@@ -78,8 +78,8 @@ class ImageObject extends JsonLD {
 
     /**
       */
-    public function __construct() {
-        parent::__construct("ImageObject");
+    public function __construct($type = "ImageObject") {
+        parent::__construct($type);
     }
 }
 

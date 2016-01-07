@@ -82,8 +82,8 @@ class BlogPosting extends Article
 
     /**
       */
-    public function __construct() {
-        JsonLD::__construct("BlogPosting");
+    public function __construct($type = "BlogPosting") {
+        parent::__construct($type);
     }
 }
 

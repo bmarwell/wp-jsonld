@@ -20,7 +20,6 @@ abstract class JsonLD {
     /**
      * Creates a JsonLD-Objekt with type set to $jsonldtype.
      * @param String $jsonldtype
-     * @param bool|FALSE $addContext
      */
     public function __construct($jsonldtype) {
         $variableType = "@type";
