@@ -180,7 +180,8 @@ class WPJsonLD {
         $markup->publisher = $this->createOrganization();
         $markup->image = $this->createImage();
 
-        $blogurl = $wpJsonLdTools->getBlogUrl();
+        $toolclass = $this->wpJsonLdTools;
+        $blogurl = $toolclass::getBlogUrl();
         $markup->mainEntityOfPage = $this->createMainEntity('WebPage', $blogurl);
         //$markup->generatedAt = date('Y-m-d H:i:s');
 
@@ -258,7 +259,8 @@ class WPJsonLD {
         $markup->publisher = $this->createOrganization();
         $markup->image = $this->createImage();
 
-        $blogurl = $wpJsonLdTools->getBlogUrl();
+        $toolclass = $this->wpJsonLdTools;
+        $blogurl = $toolclass::getBlogUrl();
         $markup->mainEntityOfPage = $this->createMainEntity('WebPage', $blogurl);
 
         // create rating if yasr is installed.

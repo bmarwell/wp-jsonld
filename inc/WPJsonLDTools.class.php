@@ -62,7 +62,7 @@ class WPJsonLDTools {
             return get_permalink(get_option('page_for_posts'));
         }
 
-        return $blogurl = home_url('/');
+        return home_url('/');
     }
 
 }
