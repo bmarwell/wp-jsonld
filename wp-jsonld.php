@@ -2,9 +2,10 @@
 /*
 Plugin Name:    WP-JSONLD
 Description:    WP-JSONLD adds valid schema.org microdata as JSON-LD-script to your blog posts, author pages and articles.
-Version:        0.3.1
+Version:        0.4.0
 Author:         Benjamin Marwell
 Original Author:         Mikko Piippo, Tomi Lattu
+Donate link:    http://bit.ly/1SuWBoP
 Plugin URI:     https://github.com/bmhm/wp-jsonld/
 
 

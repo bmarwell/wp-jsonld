@@ -2,15 +2,22 @@
 
 Contributors: Benjamin Marwell
 Original Authors: Mikko Piippo, tlattu
-Donate link:
+Donate link: http://bit.ly/1SuWBoP
 Tags: json-ld, markup, schema, rich snippets, structured data, microdata, SEO,schema.org,schema markup,JSON
 Requires at least: 4.0
-Tested up to: 4.4
+Tested up to: 4.4.1
 Stable tag: 0.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Adds valid schema.org microdata as JSON-LD-script to your blog posts, author pages and articles.
+
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/33f568eae788433d92a8f0f75ed0e408)](https://www.codacy.com/app/bmarwell/wp-jsonld)
+[![Stories in Ready](https://badge.waffle.io/bmhm/wp-jsonld.png?label=ready&title=Ready)](https://waffle.io/bmhm/wp-jsonld)
+[![Issue Stats](http://issuestats.com/github/bmhm/wp-jsonld/badge/issue)](http://issuestats.com/github/bmhm/wp-jsonld)
+[![Issue Stats](http://issuestats.com/github/bmhm/wp-jsonld/badge/pr)](http://issuestats.com/github/bmhm/wp-jsonld)
+[![Code Climate](https://codeclimate.com/github/bmhm/wp-jsonld/badges/gpa.svg)](https://codeclimate.com/github/bmhm/wp-jsonld)
+[![Issue Count](https://codeclimate.com/github/bmhm/wp-jsonld/badges/issue_count.svg)](https://codeclimate.com/github/bmhm/wp-jsonld)
 
 ## Description
 
@@ -19,7 +26,7 @@ Adds valid schema.org microdata as JSON-LD-script to your blog posts, author pag
 
 Original Plugin (discontinued): https://de.wordpress.org/plugins/json-ld-for-article/
 
-Sadly, he original plugin is not being developed anymore. So I decided to fix some bugs like invalid markup,
+Sadly, the original plugin is not being developed anymore. So I decided to fix some bugs like invalid markup,
     missing tags, putting objects into fields instead of just URLs for images, and implementing for more than just
     articles.
 
@@ -27,8 +34,6 @@ Also, this plugin plays nicely with [YASR - yet another star rating](https://de.
 remove yasr's invalid jsonld-syntax and instead use YASRs rating.
 
 All requests are being cached and purged on page update/edit etc.
-
-[![Stories in Ready](https://badge.waffle.io/bmhm/wp-jsonld.png?label=ready&title=Ready)](https://waffle.io/bmhm/wp-jsonld)
 
 ### Original description
 Search engines such as Google are using structured data markup in many ways—for example, to create rich snippets in search results. Search results with rich snippets will improve your click through rates and increase the number of visitors on your website.
@@ -92,6 +97,12 @@ We cannot promise it - but installing this plugin is in any case a step in right
 
 ### 0.4.0
 * Added support for pages.
+
+### 0.3.2
+* Find correct front page.
+
+### 0.3.1
+* updated type so release could be pushed.
 
 ### 0.3.0
 * Use transients for caching.
