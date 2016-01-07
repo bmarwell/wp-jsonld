@@ -27,8 +27,6 @@ with WP-JSONLD for Aricle; if not, write to the Free Software Foundation, Inc.,
 namespace bmarwell\wp_jsonld;
 
 use bmarwell\wp_jsonld\WPJsonLD;
-use bmarwell\wp_jsonld\WPJsonLDTools;
-
 
 
 /* Constants */
