@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (C) 2015 
+ * Copyright (C) 2016
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -16,8 +16,6 @@
 
 namespace bmarwell\wp_jsonld;
 
-use bmarwell\wp_jsonld\JsonLD;
-
 /**
  * Class: Author.
  *
@@ -27,7 +25,6 @@ use bmarwell\wp_jsonld\JsonLD;
  */
 class Author extends JsonLD
 {
-
     /**
      * email
      *
@@ -59,5 +56,3 @@ class Author extends JsonLD
         parent::__construct("Person", $addContext);
     }
 }
-
-
