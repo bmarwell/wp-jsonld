@@ -69,6 +69,43 @@ class WPJsonLDTools {
 
         return home_url('/');
     }
+
+    public static function findPublisherLogo() {
+        $logopaths = array(
+            get_site_url(). '/publisher-600x60.png',
+            'https://logo.clearbit.com/' . self::stripProtocolScheme(get_site_url()) . '?size=60',
+            JSONLD_DIR . '/img/publisher-600x60.png'
+        );
+
+        foreach ($logopaths as $logopath) {
+            if (file_exists($logopath)) {
+                return self::createLogo($logopath);
+            }
+        }
+    }
+
+    public static function createLogo($url) {
+        if (!file_exists($url)) {
+            return;
+        }
+
+        list($imgWidth, $imgHeight) = getimagesize($url);
+
+        $logo = new ImageObject();
+        $logo->url = $url;
+        $logo->id = $logo->url;
+        $logo->height = $imgWidth;
+        $logo->width = $imgHeight;
+        $logo->contentSize = self::humanFilesize(filesize($url));
+    }
+
+
+    public static function humanFilesize($bytes, $decimals = 2) {
+        $sizenames = 'BKMGTP';
+        $factor = floor((strlen($bytes) - 1) / 3);
+
+        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sizenames[$factor];
+    }
 }
 
 
