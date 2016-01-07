@@ -214,7 +214,6 @@ class WPJsonLD {
     /**
      * Create a rating object for AggregateRating.
      *
-     * TODO: Convert to JsonLD Object instead of using array.
      * @since 0.3
      * */
     public function createRating() {
@@ -230,24 +229,24 @@ class WPJsonLD {
         }
 
         foreach ($visitorVotes as $rating) {
-            $visitor_rating['votes_number'] = $rating->number_of_votes;
-            $visitor_rating['sum'] = $rating->sum_votes;
+            $visitorRating['votes_number'] = $rating->number_of_votes;
+            $visitorRating['sum'] = $rating->sum_votes;
         }
 
         /*
          * There needs to be something to calculate from.
          * I.e. at least one rating.
          * */
-        if ($visitor_rating['sum'] == 0 || $visitor_rating['votes_number'] == 0) {
+        if ($visitorRating['sum'] == 0 || $visitorRating['votes_number'] == 0) {
             return $ratingMarkup;
         }
 
-        $average_rating = $visitor_rating['sum'] / $visitor_rating['votes_number'];
-        $average_rating = round($average_rating, 1);
+        $averageRating = $visitorRating['sum'] / $visitorRating['votes_number'];
+        $averageRating = round($averageRating, 1);
 
         $ratingMarkup = new AggregateRating();
-        $ratingMarkup->ratingValue = $average_rating;
-        $ratingMarkup->ratingCount = intval($visitor_rating['votes_number']);
+        $ratingMarkup->ratingValue = $averageRating;
+        $ratingMarkup->ratingCount = intval($visitorRating['votes_number']);
 
         return $ratingMarkup;
     }
