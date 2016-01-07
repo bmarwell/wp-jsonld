@@ -179,13 +179,8 @@ class WPJsonLD {
         $markup->author = $this->createAuthorEntity();
         $markup->publisher = $this->createOrganization();
         $markup->image = $this->createImage();
-        // this is mean. The Page with posts can be another page
-        // than home_url() or site_url().
-        if (get_option('show_on_front') == 'page') {
-            $blogurl = get_permalink(get_option('page_for_posts'));
-        } else {
-            $blogurl = home_url('/');
-        }
+
+        $blogurl = $wpJsonLdTools->getBlogUrl();
         $markup->mainEntityOfPage = $this->createMainEntity('WebPage', $blogurl);
         //$markup->generatedAt = date('Y-m-d H:i:s');
 
@@ -263,14 +258,7 @@ class WPJsonLD {
         $markup->publisher = $this->createOrganization();
         $markup->image = $this->createImage();
 
-        // this is mean. The Page with posts can be another page
-        // than home_url() or site_url().
-        if (get_option('show_on_front') == 'page') {
-            $blogurl = get_permalink(get_option('page_for_posts'));
-        } else {
-            $blogurl = home_url('/');
-        }
-
+        $blogurl = $wpJsonLdTools->getBlogUrl();
         $markup->mainEntityOfPage = $this->createMainEntity('WebPage', $blogurl);
 
         // create rating if yasr is installed.

@@ -54,6 +54,17 @@ class WPJsonLDTools {
         $wpdb->query( "DELETE FROM `wp_options` WHERE `option_name` LIKE ('_transient_timeout_wp_jsonld-%')" );
     }
 
+    /** Returns the url where blog posts are being shown. */
+    public static function getBlogUrl() {
+        // this is mean. The Page with posts can be another page
+        // than home_url() or site_url().
+        if (get_option('show_on_front') == 'page') {
+            return get_permalink(get_option('page_for_posts'));
+        }
+
+        return $blogurl = home_url('/');
+    }
+
 }
 
 
