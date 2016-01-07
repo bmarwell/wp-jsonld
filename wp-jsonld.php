@@ -59,7 +59,7 @@ spl_autoload_register(__NAMESPACE__ . '\jsonld_autoload');
 // start plugin.
 $wpJsonLdTools = __NAMESPACE__ . '\WPJsonLDTools';
 $wpjsonld_plugin = new WPJsonLD($wpJsonLdTools);
-add_action('wp_footer', array($wpjsonld_plugin, 'add_markup'));
+add_action('wp_footer', array($wpjsonld_plugin, 'addMarkup'));
 
 // remove foreign rating.
 remove_filter('the_content', 'yasr_add_schema');
@@ -67,8 +67,8 @@ add_action('the_post', __NAMESPACE__ .  '\wpjsonld_remove_yasr');
 
 
 // remove transients after page changes
-add_action('comment_post', $wpJsonLdTools::delete_transients());
-add_action('edit_comment', $wpJsonLdTools::delete_transients());
-add_action('edit_post', $wpJsonLdTools::delete_transients());
-add_action('publish_post', $wpJsonLdTools::delete_transients());
-add_action('publish_page', $wpJsonLdTools::delete_transients());
+add_action('comment_post', array($wpJsonLdTools, 'deleteWpJsonLdTransients'));
+add_action('edit_comment', array($wpJsonLdTools, 'deleteWpJsonLdTransients'));
+add_action('edit_post', array($wpJsonLdTools, 'deleteWpJsonLdTransients'));
+add_action('publish_post', array($wpJsonLdTools, 'deleteWpJsonLdTransients'));
+add_action('publish_page', array($wpJsonLdTools, 'deleteWpJsonLdTransients'));

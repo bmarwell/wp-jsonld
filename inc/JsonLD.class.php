@@ -16,36 +16,34 @@
 
 namespace bmarwell\wp_jsonld;
 
-abstract class JsonLD
-{
+abstract class JsonLD {
     /**
      * Creates a JsonLD-Objekt with type set to $jsonldtype.
      * @param String $jsonldtype
-     * @param bool|FALSE $addContext
      */
-    public function __construct($jsonldtype, $addContext = false)
-    {
-        $context = "@context";
-        $type = "@type";
-        $id = "@id";
+    public function __construct($jsonldtype) {
+        $variableType = "@type";
+        $variableId = "@id";
 
-        if ($addContext === true) {
-            $this->$context = "http://schema.org";
-        }
-
-        $this->$type = $jsonldtype;
-        $this->$id = null;
+        $this->$variableType = $jsonldtype;
+        $this->$variableId = null;
     }
+
+    /** Adds @context. */
+    public function addContext() {
+        $variableContext = "@context";
+        $this->$variableContext = "http://schema.org";
+    }
+
     /**
      * Setter for @id. Sadly, schema.org and json-ld do require an @id-field,
      * but php of course doesn't allow this directly. You can still do set the
      * variable name to a variable and then double-reference it, what happens just here.
      * @param String $newId a new identifier (URI, etc.).
      */
-    public function setId($newId)
-    {
-        $id = "@id";
-        $this->$id = $newId;
+    public function setId($newId) {
+        $variableId = "@id";
+        $this->$variableId = $newId;
     }
 }
 

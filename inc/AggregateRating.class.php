@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (C) 2015 
+ * Copyright (C) 2016
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,11 +17,12 @@
 namespace bmarwell\wp_jsonld;
 
 use bmarwell\wp_jsonld\Rating;
+use bmarwell\wp_jsonld\JsonLD;
 
 /**
  * Class: AggregateRating.
  *
- * The overall rating, based on a collection of reviews or ratings, of the item. 
+ * The overall rating, based on a collection of reviews or ratings, of the item.
  * (Hint: Exclusive or, i.e. only one can apply)
  * https://schema.org/AggregateRating
  *
@@ -51,9 +52,8 @@ class AggregateRating extends Rating {
     /**
       * @param bool|FALSE $addContext
       */
-    public function __construct($addContext = false)
-    {
-        parent::__construct("AggregateRating", $addContext);
+    public function __construct($type = "AggregateRating") {
+        parent::__construct();
     }
 }
 

@@ -25,8 +25,7 @@ use bmarwell\wp_jsonld\JsonLD;
  *
  * @see JsonLD
  */
-class Article extends JsonLD
-{
+class Article extends JsonLD {
     /**
      * headline
      *
@@ -81,9 +80,8 @@ class Article extends JsonLD
     /**
       * @param bool|FALSE $addContext
       */
-    public function __construct($addContext = false)
-    {
-        parent::__construct("Article", $addContext);
+    public function __construct($type = "Article") {
+        parent::__construct($type);
     }
 }
 

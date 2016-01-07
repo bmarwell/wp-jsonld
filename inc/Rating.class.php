@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (C) 2015 
+ * Copyright (C) 2016
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -63,11 +63,9 @@ class Rating extends JsonLD {
     public $url;
 
     /**
-      * @param bool|FALSE $addContext
       */
-    public function __construct($addContext = false)
-    {
-        parent::__construct("Rating", $addContext);
+    public function __construct($type = "Rating") {
+        parent::__construct($type);
     }
 }
 

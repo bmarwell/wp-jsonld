@@ -81,11 +81,9 @@ class BlogPosting extends Article
 
 
     /**
-      * @param bool|FALSE $addContext
       */
-    public function __construct($addContext = false)
-    {
-        JsonLD::__construct("BlogPosting", $addContext);
+    public function __construct($type = "BlogPosting") {
+        parent::__construct($type);
     }
 }
 
