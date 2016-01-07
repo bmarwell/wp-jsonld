@@ -25,6 +25,9 @@ with WP-JSONLD for Aricle; if not, write to the Free Software Foundation, Inc.,
 
 namespace bmarwell\wp_jsonld;
 
+/**
+ * various static tool functions.
+ * */
 class WPJsonLDTools {
     /**
      * stripProtocolScheme
@@ -43,15 +46,17 @@ class WPJsonLDTools {
         return $url;
     }
 
+    /**
+     * Removes all transients with wpjonld namespace.
+     * */
     public static function deleteWpJsonLdTransients() {
-        global $wpdb;
-
-        $wpdb->query("DELETE FROM `wp_options` WHERE `option_name` LIKE ('_transient_wpjsonld-%')");
-        $wpdb->query( "DELETE FROM `wp_options` WHERE `option_name` LIKE ('_transient_timeout_wpjsonld-%')" );
+        // remove current transients.
+        $GLOBALS['wpdb']->query("DELETE FROM `wp_options` WHERE `option_name` LIKE ('_transient_wpjsonld-%')");
+        $GLOBALS['wpdb']->query( "DELETE FROM `wp_options` WHERE `option_name` LIKE ('_transient_timeout_wpjsonld-%')" );
 
         // old naming.
-        $wpdb->query("DELETE FROM `wp_options` WHERE `option_name` LIKE ('_transient_wp_jsonld-%')");
-        $wpdb->query( "DELETE FROM `wp_options` WHERE `option_name` LIKE ('_transient_timeout_wp_jsonld-%')" );
+        $GLOBALS['wpdb']->query("DELETE FROM `wp_options` WHERE `option_name` LIKE ('_transient_wp_jsonld-%')");
+        $GLOBALS['wpdb']->query( "DELETE FROM `wp_options` WHERE `option_name` LIKE ('_transient_timeout_wp_jsonld-%')" );
     }
 
     /** Returns the url where blog posts are being shown. */
@@ -64,7 +69,6 @@ class WPJsonLDTools {
 
         return home_url('/');
     }
-
 }
 
 
