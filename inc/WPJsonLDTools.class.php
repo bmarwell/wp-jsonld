@@ -1,8 +1,8 @@
 <?php
 /*
 Plugin Name:    WP-JSONLD
-Description:    WP-JSONLD adds valid schema.org microdata as JSON-LD-script to your blog posts, author pages and articles.
-Version:        0.3.1
+Description:    WP-JSONLD adds valid schema.org microdata as JSON-LD-script to your blog.
+Version:        0.3.2
 Author:         Benjamin Marwell
 Original Author:         Mikko Piippo, Tomi Lattu
 Plugin URI:     https://github.com/bmhm/wp-jsonld/
@@ -31,11 +31,11 @@ class WPJsonLDTools {
      *
      * @param String $url
      */
-    static function stripProtocolScheme($url) {
+    public static function stripProtocolScheme($url) {
         $disallowed = array('http://', 'https://', 'spdy://', '://', '//');
 
-        foreach($disallowed as $d) {
-            if(strpos($url, $d) === 0) {
+        foreach ($disallowed as $d) {
+            if (strpos($url, $d) === 0) {
                 return str_replace($d, '', $url);
             }
         }
@@ -43,9 +43,13 @@ class WPJsonLDTools {
         return $url;
     }
 
-    static function delete_transients() {
+    public static function deleteWpJsonLdTransients() {
         global $wpdb;
 
+        $wpdb->query("DELETE FROM `wp_options` WHERE `option_name` LIKE ('_transient_wpjsonld-%')");
+        $wpdb->query( "DELETE FROM `wp_options` WHERE `option_name` LIKE ('_transient_timeout_wpjsonld-%')" );
+
+        // old naming.
         $wpdb->query("DELETE FROM `wp_options` WHERE `option_name` LIKE ('_transient_wp_jsonld-%')");
         $wpdb->query( "DELETE FROM `wp_options` WHERE `option_name` LIKE ('_transient_timeout_wp_jsonld-%')" );
     }

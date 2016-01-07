@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name:    WP-JSONLD
-Description:    WP-JSONLD adds valid schema.org microdata as JSON-LD-script to your blog posts, author pages and articles.
+Description:    WP-JSONLD adds valid schema.org microdata as JSON-LD-script to your blog.
 Version:        0.3.1
 Author:         Benjamin Marwell
 Original Author:         Mikko Piippo, Tomi Lattu
@@ -39,10 +39,10 @@ use bmarwell\wp_jsonld\WPJsonLdTools;
 class WPJsonLD {
     private $wpJsonLdTools = null;
 
-    function __construct($wpJsonLdTools = null) {
+    public function __construct($wpJsonLdTools = null) {
         $this->wpJsonLdTools = $wpJsonLdTools;
     }
-    
+
     /**
      * createBlogPosting
      *
@@ -69,11 +69,11 @@ class WPJsonLD {
     }
 
     /**
-     * create_author_entity( - create Author Markup
+     * createAuthorEntity - create Author Markup
      *
      * @param bool|FALSE $isParent
      */
-    function create_author_entity($isParent = false) {
+    public function createAuthorEntity($isParent = false) {
         $auId = get_the_author_meta( 'ID' );
         $author = new Author($isParent);
         $author->name = get_the_author_meta('display_name');
@@ -92,7 +92,7 @@ class WPJsonLD {
      *
      * @param bool|FALSE $isParent set to true to insert @context
      */
-    function createOrganization($isParent = false) {
+    public function createOrganization($isParent = false) {
         $org = new Organization($isParent);
         $org->name = get_bloginfo('name');
         $org->legalName = get_bloginfo('name');
@@ -110,7 +110,7 @@ class WPJsonLD {
      *
      * @param bool $isParent
      */
-    function createImage($isParent = false) {
+    public function createImage($isParent = false) {
         $thId = get_post_thumbnail_id();
         $img = new ImageObject($isParent);
 
@@ -134,7 +134,7 @@ class WPJsonLD {
      *
      * @param bool|FALSE $isParent
      */
-    function createLogo($isParent = false) {
+    public function createLogo($isParent = false) {
         $toolclass = $this->wpJsonLdTools;
         $logourl = "https://logo.clearbit.com/" . $toolclass::stripProtocolScheme(get_site_url());
         $logo = new ImageObject($isParent);
@@ -150,19 +150,19 @@ class WPJsonLD {
      * @param String $type
      * @param String $id
      */
-    function createMainEntity($type = 'Article', $id = null) {
+    public function createMainEntity($type = 'Article', $id = null) {
         return array(
             "@type" => $type,
             "@id" => $id);
     }
 
     /**
-     * create_article_entity
+     * createArticleEntity
      *
      * @param bool|FALSE $isParent
      * @return Article
      */
-    function create_article_entity($isParent = false) {
+    public function createArticleEntity($isParent = false) {
         $article = new Article($isParent);
 
         // Basic info
@@ -181,10 +181,10 @@ class WPJsonLD {
         return $article;
     }
 
-    function create_jsonld_page() {
+    public function create_jsonld_page() {
         $markup = null;
-        $markup = $this->create_article_entity(true);
-        $markup->author = $this->create_author_entity(false);
+        $markup = $this->createArticleEntity(true);
+        $markup->author = $this->createAuthorEntity(false);
         $markup->publisher = $this->createOrganization();
         $markup->image = $this->createImage();
         // this is mean. The Page with posts can be another page
@@ -199,9 +199,9 @@ class WPJsonLD {
 
         // create rating if yasr is installed.
         if (function_exists("yasr_get_visitor_votes")) {
-            $visitor_votes = yasr_get_visitor_votes();
+            $visitorVotes = yasr_get_visitor_votes();
 
-            if ($visitor_votes) {
+            if ($visitorVotes) {
                 $markup->aggregateRating = $this->createRating();
             }
 
@@ -214,8 +214,8 @@ class WPJsonLD {
         return $scriptcontents;
     }
 
-    function create_jsonld_author() {
-        $markup = $this->create_author_entity(true);
+    public function create_jsonld_author() {
+        $markup = $this->createAuthorEntity(true);
         //$markup->mainEntityOfPage = createMainEntity('WebPage', $markup->url);
         //$markup->generatedAt = date('Y-m-d H:i:s');
 
@@ -230,19 +230,19 @@ class WPJsonLD {
      * TODO: Convert to JsonLD Object instead of using array.
      * @since 0.3
      * */
-    function createRating() {
+    public function createRating() {
         $ratingMarkup = null;
-        $visitor_votes = yasr_get_visitor_votes();
+        $visitorVotes = yasr_get_visitor_votes();
 
         /*
          * This function should not return null,
          * but to be safe, it is tested.
          * */
-        if (empty($visitor_votes)) {
+        if (empty($visitorVotes)) {
             return $ratingMarkup;
         }
 
-        foreach ($visitor_votes as $rating) {
+        foreach ($visitorVotes as $rating) {
             $visitor_rating['votes_number'] = $rating->number_of_votes;
             $visitor_rating['sum'] = $rating->sum_votes;
         }
@@ -260,14 +260,14 @@ class WPJsonLD {
 
         $ratingMarkup = new AggregateRating();
         $ratingMarkup->ratingValue = $average_rating;
-        $ratingMarkup->ratingCount = $visitor_rating['votes_number'];
+        $ratingMarkup->ratingCount = intval($visitor_rating['votes_number']);
 
         return $ratingMarkup;
     }
 
-    function create_jsonld_blogposting() {
+    public function create_jsonld_blogposting() {
         $markup = $this->createBlogPosting(true);
-        $markup->author = $this->create_author_entity();
+        $markup->author = $this->createAuthorEntity();
         $markup->publisher = $this->createOrganization();
         $markup->image = $this->createImage();
         // this is mean. The Page with posts can be another page
@@ -277,14 +277,15 @@ class WPJsonLD {
         } else {
             $blogurl = home_url('/');
         }
+
         $markup->mainEntityOfPage = $this->createMainEntity('WebPage', $blogurl);
         //$markup->generatedAt = date('Y-m-d H:i:s');
 
         // create rating if yasr is installed.
         if (function_exists("yasr_get_visitor_votes")) {
-            $visitor_votes = yasr_get_visitor_votes();
+            $visitorVotes = yasr_get_visitor_votes();
 
-            if ($visitor_votes) {
+            if ($visitorVotes) {
                 $markup->aggregateRating = $this->createRating();
             }
 
@@ -300,7 +301,7 @@ class WPJsonLD {
      * @author Mikko Piippo, Tomi Lattu
      * @since 0.1
      */
-    function add_markup() {
+    public function addMarkup() {
         // the text markup to be inserted.
         $markup = null;
 
@@ -308,25 +309,25 @@ class WPJsonLD {
         if (is_single()) {
             $postid = get_the_id();
 
-            if ( false === ( $markup = get_transient( 'wp_jsonld-article_' . $postid ) ) ) {
+            if ( false === ( $markup = get_transient( 'wpjsonld-article_' . $postid ) ) ) {
                 $markup = $this->create_jsonld_blogposting();
-                set_transient('wp_jsonld-article_' . $postid, $markup, 0);
+                set_transient('wpjsonld-article_' . $postid, $markup, 0);
             }
         } elseif (is_page()) {
             // Outside the loop, get_the_id is not working that easily.
             $page = get_page_by_title($page_name);
             $pageid = get_the_id();
 
-            if ( false === ( $markup = get_transient( 'wp_jsonld-page_' . $pageid ) ) ) {
+            if ( false === ( $markup = get_transient( 'wpjsonld-page_' . $pageid ) ) ) {
                 $markup = $this->create_jsonld_page();
-                set_transient('wp_jsonld-page_' . $pageid, $markup, 0);
+                set_transient('wpjsonld-page_' . $pageid, $markup, 0);
             }
         } elseif (is_author()) {
             $auId = get_the_author_meta( 'ID' );
 
-            if ( false === ( $markup = get_transient( 'wp_jsonld-author_' . $auId ) ) ) {
+            if ( false === ( $markup = get_transient( 'wpjsonld-author_' . $auId ) ) ) {
                 $markup = $this->create_jsonld_author();
-                set_transient('wp_jsonld-author_' . $auId, $markup, 0);
+                set_transient('wpjsonld-author_' . $auId, $markup, 0);
             }
         }
 
