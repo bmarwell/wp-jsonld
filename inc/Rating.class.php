@@ -63,11 +63,9 @@ class Rating extends JsonLD {
     public $url;
 
     /**
-      * @param bool|FALSE $addContext
       */
-    public function __construct($addContext = false)
-    {
-        parent::__construct("Rating", $addContext);
+    public function __construct() {
+        parent::__construct("Rating");
     }
 }
 

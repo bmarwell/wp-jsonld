@@ -22,17 +22,18 @@ abstract class JsonLD {
      * @param String $jsonldtype
      * @param bool|FALSE $addContext
      */
-    public function __construct($jsonldtype, $addContext = false) {
-        $variableContext = "@context";
+    public function __construct($jsonldtype) {
         $variableType = "@type";
         $variableId = "@id";
 
-        if ($addContext === true) {
-            $this->$variableContext = "http://schema.org";
-        }
-
         $this->$variableType = $jsonldtype;
         $this->$variableId = null;
+    }
+
+    /** Adds @context. */
+    public function addContext() {
+        $variableContext = "@context";
+        $this->$variableContext = "http://schema.org";
     }
 
     /**
@@ -41,10 +42,9 @@ abstract class JsonLD {
      * variable name to a variable and then double-reference it, what happens just here.
      * @param String $newId a new identifier (URI, etc.).
      */
-    public function setId($newId)
-    {
-        $id = "@id";
-        $this->$id = $newId;
+    public function setId($newId) {
+        $variableId = "@id";
+        $this->$variableId = $newId;
     }
 }
 

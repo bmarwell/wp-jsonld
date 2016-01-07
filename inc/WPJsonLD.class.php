@@ -46,11 +46,10 @@ class WPJsonLD {
     /**
      * createBlogPosting
      *
-     * @param bool|FALSE $isParent
      * @return BlogPosting
      */
-    function createBlogPosting($isParent = false) {
-        $blogpost = new BlogPosting($isParent);
+    function createBlogPosting() {
+        $blogpost = new BlogPosting();
 
         // Basic info
         $blogpost->headline = get_the_title();
@@ -70,13 +69,12 @@ class WPJsonLD {
 
     /**
      * createAuthorEntity - create Author Markup
-     *
-     * @param bool|FALSE $isParent
      */
-    public function createAuthorEntity($isParent = false) {
-        $auId = get_the_author_meta( 'ID' );
-        $author = new Author($isParent);
+    public function createAuthorEntity() {
+        $author = new Author();
+
         $author->name = get_the_author_meta('display_name');
+        $auId = get_the_author_meta( 'ID' );
         $author->url = get_author_posts_url($auId);
         $author->setId(get_author_posts_url($auId));
         $author->email = get_the_author_meta('user_email');
@@ -87,13 +85,11 @@ class WPJsonLD {
     /**
      * createOrganization
      *
-     *
      * Creates an organization object for the blog.
-     *
-     * @param bool|FALSE $isParent set to true to insert @context
      */
-    public function createOrganization($isParent = false) {
-        $org = new Organization($isParent);
+    public function createOrganization() {
+        $org = new Organization();
+
         $org->name = get_bloginfo('name');
         $org->legalName = get_bloginfo('name');
         $org->setId(network_site_url('/'));
@@ -107,12 +103,10 @@ class WPJsonLD {
      * createImage
      *
      * Creates an image for the post thumbnail.
-     *
-     * @param bool $isParent
      */
-    public function createImage($isParent = false) {
+    public function createImage() {
         $thId = get_post_thumbnail_id();
-        $img = new ImageObject($isParent);
+        $img = new ImageObject();
 
         if (has_post_thumbnail()) {
             $img->contentUrl = wp_get_attachment_url($thId);
@@ -131,13 +125,11 @@ class WPJsonLD {
 
     /**
      * createLogo
-     *
-     * @param bool|FALSE $isParent
      */
-    public function createLogo($isParent = false) {
+    public function createLogo() {
         $toolclass = $this->wpJsonLdTools;
         $logourl = "https://logo.clearbit.com/" . $toolclass::stripProtocolScheme(get_site_url());
-        $logo = new ImageObject($isParent);
+        $logo = new ImageObject();
         $logo->setId($logourl);
         $logo->url = $logourl;
 
@@ -159,11 +151,10 @@ class WPJsonLD {
     /**
      * createArticleEntity
      *
-     * @param bool|FALSE $isParent
      * @return Article
      */
-    public function createArticleEntity($isParent = false) {
-        $article = new Article($isParent);
+    public function createArticleEntity() {
+        $article = new Article();
 
         // Basic info
         $article->headline = get_the_title();
@@ -183,8 +174,9 @@ class WPJsonLD {
 
     public function create_jsonld_page() {
         $markup = null;
-        $markup = $this->createArticleEntity(true);
-        $markup->author = $this->createAuthorEntity(false);
+        $markup = $this->createArticleEntity();
+        $markup->addContext();
+        $markup->author = $this->createAuthorEntity();
         $markup->publisher = $this->createOrganization();
         $markup->image = $this->createImage();
         // this is mean. The Page with posts can be another page
@@ -215,9 +207,8 @@ class WPJsonLD {
     }
 
     public function create_jsonld_author() {
-        $markup = $this->createAuthorEntity(true);
-        //$markup->mainEntityOfPage = createMainEntity('WebPage', $markup->url);
-        //$markup->generatedAt = date('Y-m-d H:i:s');
+        $markup = $this->createAuthorEntity();
+        $markup->addContext();
 
         $scriptcontents = json_encode($markup, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
 
@@ -266,10 +257,12 @@ class WPJsonLD {
     }
 
     public function create_jsonld_blogposting() {
-        $markup = $this->createBlogPosting(true);
+        $markup = $this->createBlogPosting();
+        $markup->addContext();
         $markup->author = $this->createAuthorEntity();
         $markup->publisher = $this->createOrganization();
         $markup->image = $this->createImage();
+
         // this is mean. The Page with posts can be another page
         // than home_url() or site_url().
         if (get_option('show_on_front') == 'page') {
@@ -279,7 +272,6 @@ class WPJsonLD {
         }
 
         $markup->mainEntityOfPage = $this->createMainEntity('WebPage', $blogurl);
-        //$markup->generatedAt = date('Y-m-d H:i:s');
 
         // create rating if yasr is installed.
         if (function_exists("yasr_get_visitor_votes")) {

@@ -25,8 +25,7 @@ use bmarwell\wp_jsonld\JsonLD;
  *
  * @see JsonLD
  */
-class Organization extends JsonLD
-{
+class Organization extends JsonLD {
     /**
      * name - a common name.
      *
@@ -51,9 +50,8 @@ class Organization extends JsonLD
     /**
       * @param bool|FALSE $addContext
       */
-    public function __construct($addContext = false)
-    {
-        parent::__construct("Organization", $addContext);
+    public function __construct() {
+        parent::__construct("Organization");
     }
 }
 

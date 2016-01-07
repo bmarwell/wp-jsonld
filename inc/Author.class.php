@@ -51,11 +51,9 @@ class Author extends JsonLD {
     public $url;
 
     /**
-      * @param bool|FALSE $addContext
       */
-    public function __construct($addContext = false)
-    {
-        parent::__construct("Person", $addContext);
+    public function __construct() {
+        parent::__construct("Person");
     }
 }
 

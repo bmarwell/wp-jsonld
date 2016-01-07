@@ -25,8 +25,7 @@ use bmarwell\wp_jsonld\JsonLD;
  *
  * @see JsonLD
  */
-class ImageObject extends JsonLD
-{
+class ImageObject extends JsonLD {
     /**
      * url
      *
@@ -78,11 +77,9 @@ class ImageObject extends JsonLD
     public $contentUrl;
 
     /**
-      * @param bool|FALSE $addContext
       */
-    public function __construct($addContext = false)
-    {
-        parent::__construct("ImageObject", $addContext);
+    public function __construct() {
+        parent::__construct("ImageObject");
     }
 }
 
