@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (C) 2015
+ * Copyright (C) 2016
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -19,38 +19,52 @@ namespace bmarwell\wp_jsonld;
 use bmarwell\wp_jsonld\JsonLD;
 
 /**
- * Class: Organization.
+ * Class: Rating.
  *
- * Represents an Organization
+ * Represents a Rating.
+ * https://schema.org/Rating
  *
  * @see JsonLD
  */
-class Organization extends JsonLD {
+class Rating extends JsonLD {
+
     /**
-     * name - a common name.
+     * bestRating
+     * The highest value allowed in this rating system. If bestRating is omitted, 5 is assumed.
+     *
+     * @var Integer
+     */
+    public $bestRating = 5;
+
+    /**
+     * The rating for the content.
+     * */
+    public $ratingValue;
+
+    /**
+     * The lowest value allowed in this rating system. If worstRating is omitted, 1 is assumed.
+     * */
+    public $worstRating = 1;
+
+    /**
+     * name
      *
      * @var String
      */
     public $name;
 
     /**
-     * logo
+     * url
      *
-     * @var ImageObject
-     */
-    public $logo;
-
-    /**
-     * legalName - the official name.
+     * The Rating page in wordpress.
      *
      * @var String
      */
-    public $legalName;
+    public $url;
 
     /**
-      * @param bool|FALSE $addContext
       */
-    public function __construct($type = "Organization") {
+    public function __construct($type = "Rating") {
         parent::__construct($type);
     }
 }

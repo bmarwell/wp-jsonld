@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (C) 2015
+ * Copyright (C) 2016
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -16,41 +16,42 @@
 
 namespace bmarwell\wp_jsonld;
 
-use bmarwell\wp_jsonld\JsonLD;
+use bmarwell\wp_jsonld\Rating;
 
 /**
- * Class: Organization.
+ * Class: AggregateRating.
  *
- * Represents an Organization
+ * The overall rating, based on a collection of reviews or ratings, of the item.
+ * (Hint: Exclusive or, i.e. only one can apply)
+ * https://schema.org/AggregateRating
  *
- * @see JsonLD
+ * @see Rating
  */
-class Organization extends JsonLD {
-    /**
-     * name - a common name.
-     *
-     * @var String
-     */
-    public $name;
+class AggregateRating extends Rating {
 
     /**
-     * logo
-     *
-     * @var ImageObject
-     */
-    public $logo;
+     * The item that is being reviewed/rated.
+     * */
+    public $itemReviewed;
+
+    /*
+     * The count of total number of ratings.
+     * This is what users poll gave.
+     * */
+    public $ratingCount;
 
     /**
-     * legalName - the official name.
-     *
-     * @var String
-     */
-    public $legalName;
+     * The count of total number of reviews.
+     * This is filled if based on reviews of the author
+     * */
+    public $reviewCount;
+
+
 
     /**
       * @param bool|FALSE $addContext
       */
-    public function __construct($type = "Organization") {
+    public function __construct($type = "AggregateRating") {
         parent::__construct($type);
     }
 }

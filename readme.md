@@ -5,12 +5,12 @@ Original Authors: Mikko Piippo, tlattu
 Donate link: http://bit.ly/1SuWBoP
 Tags: json-ld, markup, schema, rich snippets, structured data, microdata, SEO,schema.org,schema markup,JSON
 Requires at least: 4.0
-Tested up to: 4.4
-Stable tag: 0.3.2
+Tested up to: 4.4.1
+Stable tag: 0.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-wp-jsonld is the continuation of the simplest solution to add valid schema.org microdata as JSON-LD-script to your blog posts and articles.
+Adds valid schema.org microdata as JSON-LD-script to your blog posts, author pages and articles.
 
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/33f568eae788433d92a8f0f75ed0e408)](https://www.codacy.com/app/bmarwell/wp-jsonld)
 [![Stories in Ready](https://badge.waffle.io/bmhm/wp-jsonld.png?label=ready&title=Ready)](https://waffle.io/bmhm/wp-jsonld)
@@ -22,6 +22,8 @@ wp-jsonld is the continuation of the simplest solution to add valid schema.org m
 ## Description
 
 ### Why this plugin exists
+Adds valid schema.org microdata as JSON-LD-script to your blog posts, author pages and articles.
+
 Original Plugin (discontinued): https://de.wordpress.org/plugins/json-ld-for-article/
 
 Sadly, the original plugin is not being developed anymore. So I decided to fix some bugs like invalid markup,
@@ -32,7 +34,6 @@ Also, this plugin plays nicely with [YASR - yet another star rating](https://de.
 remove yasr's invalid jsonld-syntax and instead use YASRs rating.
 
 All requests are being cached and purged on page update/edit etc.
-
 
 ### Original description
 Search engines such as Google are using structured data markup in many ways—for example, to create rich snippets in search results. Search results with rich snippets will improve your click through rates and increase the number of visitors on your website.
@@ -65,25 +66,37 @@ If you need to install this using FTP or SFTP, you should follow these steps:
 **Compatibility.** This version requires php 5.4 for some options of json\_encode. If you encounter any problems with the plugin you should check your web hotel’s php version.
 
 ## Frequently Asked Questions
-**How do I test if this plugin works?** Go to https://developers.google.com/structured-data/testing-tool/ and enter the URL of one of your articles / blog posts.
 
-**Are Authors (Person) markups supported on author pages?** Soon.
+**How do I test if this plugin works?**
+Go to https://developers.google.com/structured-data/testing-tool/ and enter the URL of one of your articles / blog posts.
 
-**Does this plugin produce valid markup?** According to Google, yes.
+**Are Authors (Person) markups supported on author pages?**
+Starting with 0.4.0. If you don't see markup on author pages or normal pages,
+         please be so kind as to write a ticket.
 
-**Where is the logo taken from?** Currently it uses https://logo.clearbit.com/&lt;url&gt;. This will change soon.
+**Does this plugin produce valid markup?**
+According to Google, yes.
 
-**Does this plugin X?** Most probably, it does not. This plugin simply adds to the footer of your single post views valid JSON-LD filled with the data from the WP database. You should not see anything new on the page - the JSON-LD can be seen only in the source code of the web page.
+**Where is the logo taken from?**
+Currently it uses https://logo.clearbit.com/&lt;url&gt;. This will change soon.
 
-**Why should I install this plugin?** Installing this plugin is the easiest way to add structured data to your blog. The plugin automatically creates the JSON-LD according to Google’s specification. 
+**Does this plugin X?**
+Most probably, it does not. This plugin simply adds to the footer of your single post views valid JSON-LD filled with the data from the WP database. You should not see anything new on the page - the JSON-LD can be seen only in the source code of the web page.
 
-**Does this plugin improve my SEO rankings?** We cannot promise it - but installing this plugin is in any case a step in right direction.
+**Why should I install this plugin?**
+Installing this plugin is the easiest way to add structured data to your blog. The plugin automatically creates the JSON-LD according to Google’s specification. 
+
+**Does this plugin improve my SEO rankings?**
+We cannot promise it - but installing this plugin is in any case a step in right direction.
 
 ## Screenshots
 
-Screenshots will be added soon.
+1. The generated output on the left as seen in Googles Structured Data Testing Tool. On the right you can see that google will parse it with no errors, except for a missing company logo.
 
 ## Changelog 
+
+### 0.4.0
+* Added support for pages.
 
 ### 0.3.2
 * Find correct front page.
