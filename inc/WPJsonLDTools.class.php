@@ -69,6 +69,71 @@ class WPJsonLDTools {
 
         return home_url('/');
     }
+
+    public static function findPublisherLogo() {
+        $logopaths = array(
+            get_site_url(). '/publisher-600x60.png',
+            'https://logo.clearbit.com/' . self::stripProtocolScheme(get_site_url()) . '?size=60',
+            JSONLD_DIR . '/img/publisher-600x60.png'
+        );
+
+        foreach ($logopaths as $logopath) {
+            if (file_exists($logopath)) {
+                return self::createLogo($logopath);
+            }
+        }
+    }
+
+    public static function getUrlOfFile($file) {
+        if (filter_var($file, FILTER_VALIDATE_URL) !== FALSE) {
+            // this is already a valid url.
+            return $file;
+        }
+
+        // check if this file is inside wp-content.
+        if (!strstr($file, WP_CONTENT_DIR)) {
+            // we wouldn't be able to convert this.
+            return null;
+        }
+
+        // so we got a file inside wp content. Just
+        // strip the local part, and replace it with
+        // the domain / blog url.
+        $logourl = str_replace(
+            WP_CONTENT_DIR, // strip this
+            content_url(), // replacement
+            $file);
+
+        return $logourl;
+    }
+
+    public static function createLogo($file) {
+        if (!file_exists($file)) {
+            return;
+        }
+
+        $imageurl = self::getUrlOfFile($file);
+
+
+        list($imgWidth, $imgHeight) = getimagesize($file);
+
+        $logo = new ImageObject();
+        $logo->url = $imageurl;
+        $logo->{'@id'} = $logo->url;
+        $logo->width = $imgWidth;
+        $logo->height = $imgHeight;
+        $logo->contentSize = self::humanFilesize(filesize($file));
+
+        return $logo;
+    }
+
+
+    public static function humanFilesize($bytes, $decimals = 2) {
+        $sizenames = 'BKMGTP';
+        $factor = floor((strlen($bytes) - 1) / 3);
+
+        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sizenames[$factor];
+    }
 }
 
 

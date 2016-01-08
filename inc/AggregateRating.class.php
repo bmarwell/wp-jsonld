@@ -52,7 +52,7 @@ class AggregateRating extends Rating {
       * @param bool|FALSE $addContext
       */
     public function __construct($type = "AggregateRating") {
-        parent::__construct();
+        parent::__construct($type);
     }
 }
 

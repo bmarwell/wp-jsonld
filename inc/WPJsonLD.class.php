@@ -87,13 +87,14 @@ class WPJsonLD {
      * Creates an organization object for the blog.
      */
     public function createOrganization() {
+        $toolclass = $this->wpJsonLdTools;
         $org = new Organization();
 
         $org->name = get_bloginfo('name');
         $org->legalName = get_bloginfo('name');
         $org->setId(network_site_url('/'));
         $org->url = network_site_url('/');
-        $org->logo = $this->createLogo();
+        $org->logo = $toolclass::findPublisherLogo();
 
         return $org;
     }
@@ -120,19 +121,6 @@ class WPJsonLD {
         }
 
         return $img;
-    }
-
-    /**
-     * createLogo
-     */
-    public function createLogo() {
-        $toolclass = $this->wpJsonLdTools;
-        $logourl = "https://logo.clearbit.com/" . $toolclass::stripProtocolScheme(get_site_url());
-        $logo = new ImageObject();
-        $logo->setId($logourl);
-        $logo->url = $logourl;
-
-        return $logo;
     }
 
     /**
@@ -179,9 +167,7 @@ class WPJsonLD {
         $markup->publisher = $this->createOrganization();
         $markup->image = $this->createImage();
 
-        $toolclass = $this->wpJsonLdTools;
-        $blogurl = $toolclass::getBlogUrl();
-        $markup->mainEntityOfPage = $this->createMainEntity('WebPage', $blogurl);
+        $markup->mainEntityOfPage = $this->createMainEntity($markup->{'@type'}, $markup->{'@id'});
 
         // create rating if yasr is installed.
         if (function_exists("yasr_get_visitor_votes")) {
@@ -213,7 +199,7 @@ class WPJsonLD {
      *
      * @since 0.3
      * */
-    public function createRating() {
+    public function createRating($itemUrl = null) {
         $ratingMarkup = null;
         $visitorVotes = yasr_get_visitor_votes();
 
@@ -245,6 +231,15 @@ class WPJsonLD {
         $ratingMarkup->ratingValue = $averageRating;
         $ratingMarkup->ratingCount = intval($visitorRating['votes_number']);
 
+        // if there is no item url, just remove and return.
+        if ($itemUrl === null) {
+            unset($ratingMarkup->{'@id'});
+
+            return $ratingMarkup;
+        }
+
+        $ratingMarkup->{'@id'} = $itemUrl;
+
         return $ratingMarkup;
     }
 
@@ -255,9 +250,7 @@ class WPJsonLD {
         $markup->publisher = $this->createOrganization();
         $markup->image = $this->createImage();
 
-        $toolclass = $this->wpJsonLdTools;
-        $blogurl = $toolclass::getBlogUrl();
-        $markup->mainEntityOfPage = $this->createMainEntity('WebPage', $blogurl);
+        $markup->mainEntityOfPage = $this->createMainEntity($markup->{'@type'}, $markup->{'@id'});
 
         // create rating if yasr is installed.
         if (function_exists("yasr_get_visitor_votes")) {
