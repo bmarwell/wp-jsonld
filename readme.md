@@ -6,7 +6,7 @@ Donate link: http://bit.ly/1SuWBoP
 Tags: json-ld, markup, schema, rich snippets, structured data, microdata, SEO,schema.org,schema markup,JSON
 Requires at least: 4.0
 Tested up to: 4.4.1
-Stable tag: 0.4.0
+Stable tag: 0.3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
