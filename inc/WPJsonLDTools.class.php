@@ -84,19 +84,47 @@ class WPJsonLDTools {
         }
     }
 
-    public static function createLogo($url) {
-        if (!file_exists($url)) {
+    public static function getUrlOfFile($file) {
+        if (filter_var($file, FILTER_VALIDATE_URL) !== FALSE) {
+            // this is already a valid url.
+            return $file;
+        }
+
+        // check if this file is inside wp-content.
+        if (!strstr($file, WP_CONTENT_DIR)) {
+            // we wouldn't be able to convert this.
+            return null;
+        }
+
+        // so we got a file inside wp content. Just
+        // strip the local part, and replace it with
+        // the domain / blog url.
+        $logourl = str_replace(
+            WP_CONTENT_DIR, // strip this
+            content_url(), // replacement
+            $file);
+
+        return $logourl;
+    }
+
+    public static function createLogo($file) {
+        if (!file_exists($file)) {
             return;
         }
 
-        list($imgWidth, $imgHeight) = getimagesize($url);
+        $imageurl = self::getUrlOfFile($file);
+
+
+        list($imgWidth, $imgHeight) = getimagesize($file);
 
         $logo = new ImageObject();
-        $logo->url = $url;
-        $logo->id = $logo->url;
-        $logo->height = $imgWidth;
-        $logo->width = $imgHeight;
-        $logo->contentSize = self::humanFilesize(filesize($url));
+        $logo->url = $imageurl;
+        $logo->{'@id'} = $logo->url;
+        $logo->width = $imgWidth;
+        $logo->height = $imgHeight;
+        $logo->contentSize = self::humanFilesize(filesize($file));
+
+        return $logo;
     }
 
 
