@@ -6,7 +6,7 @@ Donate link: http://bit.ly/1SuWBoP
 Tags: json-ld, markup, schema, rich snippets, structured data, microdata, SEO,schema.org,schema markup,JSON
 Requires at least: 4.0
 Tested up to: 4.4.1
-Stable tag: 0.3.2
+Stable tag: 0.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -97,6 +97,8 @@ We cannot promise it - but installing this plugin is in any case a step in right
 
 ### 0.4.0
 * Added support for pages.
+* Added publisher logos. Either /publisher-600x60.png or from external url or a default placeholder.
+* Fixed mainEntity issues and implemented a class for Ratings.
 
 ### 0.3.2
 * Find correct front page.
